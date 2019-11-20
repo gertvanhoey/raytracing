@@ -1,0 +1,9 @@
+language: c++
+
+compiler: clang
+
+script:
+  - mkdir /tmp/build
+  - cd /tmp/build
+  - cmake ..
+  - cmake --build . || travis_terminate 1;  
