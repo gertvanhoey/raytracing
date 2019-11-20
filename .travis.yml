@@ -5,5 +5,5 @@ compiler: clang
 script:
   - mkdir /tmp/build
   - cd /tmp/build
-  - cmake ..
+  - cmake ${TRAVIS_BUILD_DIR}
   - cmake --build . || travis_terminate 1;  
