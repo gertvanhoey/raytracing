@@ -30,7 +30,7 @@ public:
     vec3& operator*=(const double);
     vec3& operator/=(const double);
 
-    double length() const { return std::sqrt(e[0] * e[0] + e[1] * e[1] + e[2] * e[2]); }
+    double length() const { return sqrt(e[0] * e[0] + e[1] * e[1] + e[2] * e[2]); }
     double squared_length() const { return e[0] * e[0] + e[1] * e[1] + e[2] * e[2]; }
     void make_unit_vector();
 
@@ -82,7 +82,7 @@ inline vec3& vec3::operator/=(const double t) {
 
 inline void vec3::make_unit_vector()
 {
-    double k = 1.0 / std::sqrt(e[0] * e[0] + e[1] * e[1] + e[2] * e[2]);
+    double k = 1.0 / sqrt(e[0] * e[0] + e[1] * e[1] + e[2] * e[2]);
     e[0] *= k;
     e[1] *= k;
     e[2] *= k;

@@ -23,14 +23,14 @@ bool sphere::hit(const ray& r, double t_min, double t_max, hit_record& rec) cons
     double c = dot(oc, oc) - radius * radius;
     double discriminant = b * b - a * c;
     if (discriminant > 0.0) {
-        double temp = (-b - std::sqrt(discriminant)) / a;
+        double temp = (-b - sqrt(discriminant)) / a;
         if (t_min < temp && temp < t_max) {
             rec.t = temp;
             rec.p = r.point_at_parameter(rec.t);
             rec.normal = (rec.p - center) / radius;
             return true;
         }
-        temp = (-b + std::sqrt(discriminant)) / a;
+        temp = (-b + sqrt(discriminant)) / a;
         if (t_min < temp && temp < t_max) {
             rec.t = temp;
             rec.p = r.point_at_parameter(rec.t);
