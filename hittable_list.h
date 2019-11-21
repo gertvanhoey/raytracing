@@ -20,7 +20,7 @@ std::optional<hit_record> hittable_list::hit(const ray& r, double t_min, double 
     std::optional<hit_record> rec;
     double closest_so_far = t_max;
     for (int i = 0; i < list_size; i++) {
-        auto temp_rec = hit(r, t_min, closest_so_far);
+        auto temp_rec = list[i]->hit(r, t_min, closest_so_far);
         if (temp_rec) {
             closest_so_far = (*temp_rec).t;
             rec = temp_rec;
