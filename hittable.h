@@ -2,6 +2,7 @@
 #define HITTABLE_H
 
 #include "ray.h"
+#include <optional>
 
 struct hit_record {
     double t;
@@ -11,7 +12,7 @@ struct hit_record {
 
 class hittable {
 public:
-    virtual bool hit(const ray& r, double t_min, double t_max, hit_record& rec) const = 0;
+    virtual std::optional<hit_record> hit(const ray& r, double t_min, double t_max) const = 0;
 };
 
 #endif // HITTABLE_H

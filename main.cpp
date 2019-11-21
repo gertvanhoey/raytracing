@@ -19,9 +19,10 @@ void save_to_ppm(const std::string& filename, const std::vector<vec3>& pixels, i
 }
 
 vec3 color(const ray& r, hittable *world) {
-    hit_record rec;
-    if (world->hit(r, 0.0, std::numeric_limits<double>::max(), rec)) {
-        return 0.5 * vec3(rec.normal.x() + 1.0, rec.normal.y() + 1.0, rec.normal.z() + 1.0);
+    auto rec = world->hit(r, 0.0, std::numeric_limits<double>::max());
+    if (rec) {
+        auto normal = (*rec).normal;
+        return 0.5 * vec3(normal.x() + 1.0, normal.y() + 1.0, normal.z() + 1.0);
     }
     else {
         vec3 unit_direction = unit_vector(r.direction());

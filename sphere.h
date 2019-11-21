@@ -9,13 +9,13 @@ public:
     sphere() {}
     sphere(vec3 cen, double r) : center(cen), radius(r) {}
 
-    virtual bool hit(const ray& r, double t_min, double t_max, hit_record& rec) const;
+    virtual std::optional<hit_record> hit(const ray& r, double t_min, double t_max) const;
 
     vec3 center;
     double radius;
 };
 
-bool sphere::hit(const ray& r, double t_min, double t_max, hit_record& rec) const
+std::optional<hit_record> sphere::hit(const ray& r, double t_min, double t_max) const
 {
     vec3 oc = r.origin() - center;
     double a = dot(r.direction(), r.direction());
@@ -25,20 +25,22 @@ bool sphere::hit(const ray& r, double t_min, double t_max, hit_record& rec) cons
     if (discriminant > 0.0) {
         double temp = (-b - sqrt(discriminant)) / a;
         if (t_min < temp && temp < t_max) {
+            hit_record rec;
             rec.t = temp;
             rec.p = r.point_at_parameter(rec.t);
             rec.normal = (rec.p - center) / radius;
-            return true;
+            return rec;
         }
         temp = (-b + sqrt(discriminant)) / a;
         if (t_min < temp && temp < t_max) {
+            hit_record rec;
             rec.t = temp;
             rec.p = r.point_at_parameter(rec.t);
             rec.normal = (rec.p - center) / radius;
-            return true;
+            return rec;
         }
     }
-    return false;
+    return std::nullopt;
 }
 
 #endif // SPHERE_H
