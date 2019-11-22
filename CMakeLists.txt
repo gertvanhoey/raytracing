@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION 3.0)
 
+# Avoid warning about overriding '/W3' with '/W4' when compiling with MSVC
+if (POLICY CMP0092)
+cmake_policy(SET CMP0092 NEW)
+endif()
+
 project(raytracing LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -13,11 +18,8 @@ add_executable(raytracer
     hittable_list.h
 )
 
-# https://foonathan.net/2018/10/cmake-warnings/
-
-target_compile_options(raytracer PRIVATE
-    $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
-        -Wall -Wextra -Wconversion -Wsign-conversion -pedantic-errors>
-    $<$<CXX_COMPILER_ID:MSVC>:
-        /W4>
-)
+if (MSVC)
+  target_compile_options(raytracer PRIVATE /W4 /WX)
+else()
+  target_compile_options(raytracer PRIVATE -Wall -Wextra -pedantic -Wconversion -Wsign-conversion -Werror)
+endif()
