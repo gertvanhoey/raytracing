@@ -21,7 +21,7 @@ void save_to_ppm(const std::string& filename, const std::vector<vec3>& pixels, i
 vec3 color(const ray& r, hittable *world) {
     auto rec = world->hit(r, 0.0, std::numeric_limits<double>::max());
     if (rec) {
-        auto normal = (*rec).normal;
+        auto normal = rec->normal;
         return 0.5 * vec3(normal.x() + 1.0, normal.y() + 1.0, normal.z() + 1.0);
     }
     else {

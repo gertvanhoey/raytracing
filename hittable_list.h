@@ -22,7 +22,7 @@ std::optional<hit_record> hittable_list::hit(const ray& r, double t_min, double 
     for (int i = 0; i < list_size; i++) {
         auto temp_rec = list[i]->hit(r, t_min, closest_so_far);
         if (temp_rec) {
-            closest_so_far = (*temp_rec).t;
+            closest_so_far = temp_rec->t;
             rec = temp_rec;
         }
     }
