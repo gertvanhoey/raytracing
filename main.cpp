@@ -18,8 +18,8 @@ void save_to_ppm(const std::string& filename, const std::vector<vec3>& pixels, i
     output.close();
 }
 
-vec3 color(const ray& r, hittable *world) {
-    auto rec = world->hit(r, 0.0, std::numeric_limits<double>::max());
+vec3 color(const ray& r, const hittable& world) {
+    auto rec = world.hit(r, 0.0, std::numeric_limits<double>::max());
     if (rec) {
         auto normal = rec->normal;
         return 0.5 * vec3(normal.x() + 1.0, normal.y() + 1.0, normal.z() + 1.0);
@@ -40,10 +40,11 @@ int main() {
     vec3 vertical(0.0, 2.0, 0.0);
     vec3 origin(0.0, 0.0, 0.0);
 
-    hittable *list[2];
-    list[0] = new sphere(vec3(0.0, 0.0, -1.0), 0.5);
-    list[1] = new sphere(vec3(0.0, -100.5, -1.0), 100.0);
-    hittable *world = new hittable_list(list, 2);
+    std::vector<std::unique_ptr<hittable>> list;
+
+    auto world = std::make_unique<hittable_list>();
+    world->add(std::make_unique<sphere>(vec3(0.0, 0.0, -1.0), 0.5));
+    world->add(std::make_unique<sphere>(vec3(0.0, -100.5, -1.0), 100.0));
 
     std::vector<vec3> pixels(width * height);
     for (int j = height - 1; j >= 0; j--) {
@@ -52,7 +53,7 @@ int main() {
             double v = double(j) / double(height);
             ray r(origin, lower_left_corner + u * horizontal + v * vertical);
 
-            vec3 col = color(r, world);
+            vec3 col = color(r, *world);
 
             pixels[size_t(i + (height - j - 1) * width)] = vec3(255.99 * col.r(), 255.99 * col.g(), 255.99 * col.b());
         }
