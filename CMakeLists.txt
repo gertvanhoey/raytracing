@@ -11,11 +11,11 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(raytracer 
     main.cpp
-    vec3.h
+    vector3d.h
     ray.h
-    hittable.h
+    object.h
     sphere.h
-    hittable_list.h
+    objectcollection.h
 )
 
 if (MSVC)

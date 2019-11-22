@@ -1,5 +1,5 @@
 #include "float.h"
-#include "hittable_list.h"
+#include "objectcollection.h"
 #include "sphere.h"
 #include <vector>
 #include <string>
