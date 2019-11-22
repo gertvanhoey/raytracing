@@ -1,5 +1,5 @@
-#ifndef VEC3_H
-#define VEC3_H
+#ifndef VECTOR3D_H
+#define VECTOR3D_H
 
 #include <iostream>
 #include <math.h>
@@ -142,4 +142,4 @@ inline Vector3D unit_vector(const Vector3D &v) {
     return v / v.length();
 }
 
-#endif // VEC3_H
+#endif // VECTOR3D_H

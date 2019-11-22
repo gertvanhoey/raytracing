@@ -1,5 +1,5 @@
-#ifndef HITTABLE_LIST_H
-#define HITTABLE_LIST_H
+#ifndef OBJECT_COLLECTION_H
+#define OBJECT_COLLECTION_H
 
 #include "object.h"
 #include <vector>
@@ -36,4 +36,4 @@ std::optional<HitRecord> ObjectCollection::hit(const Ray& r, double t_min, doubl
     return rec;
 }
 
-#endif // HITTABLE_LIST_H
+#endif // OBJECT_COLLECTION_H

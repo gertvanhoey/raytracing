@@ -1,5 +1,5 @@
-#ifndef HITTABLE_H
-#define HITTABLE_H
+#ifndef OBJECT_H
+#define OBJECT_H
 
 #include "ray.h"
 #include <optional>
@@ -15,4 +15,4 @@ public:
     virtual std::optional<HitRecord> hit(const Ray& r, double t_min, double t_max) const = 0;
 };
 
-#endif // HITTABLE_H
+#endif // OBJECT_H
