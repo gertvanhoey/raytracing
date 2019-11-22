@@ -7,7 +7,7 @@
 #include <iostream>
 #include <fstream>
 
-void save_to_ppm(const std::string& filename, const std::vector<vec3>& pixels, int width, int height) {
+void save_to_ppm(const std::string& filename, const std::vector<Vector3D>& pixels, int width, int height) {
     (void)pixels;
     std::ofstream output;
     output.open(filename);
@@ -18,16 +18,16 @@ void save_to_ppm(const std::string& filename, const std::vector<vec3>& pixels, i
     output.close();
 }
 
-vec3 color(const ray& r, const hittable& world) {
+Vector3D color(const Ray& r, const Object& world) {
     auto rec = world.hit(r, 0.0, std::numeric_limits<double>::max());
     if (rec) {
         auto normal = rec->normal;
-        return 0.5 * vec3(normal.x() + 1.0, normal.y() + 1.0, normal.z() + 1.0);
+        return 0.5 * Vector3D(normal.x() + 1.0, normal.y() + 1.0, normal.z() + 1.0);
     }
     else {
-        vec3 unit_direction = unit_vector(r.direction());
+        Vector3D unit_direction = unit_vector(r.direction());
         double t = 0.5 * (unit_direction.y() + 1.0);
-        return (1.0 - t) * vec3(1.0, 1.0, 1.0) + t * vec3(0.5, 0.7, 1.0);
+        return (1.0 - t) * Vector3D(1.0, 1.0, 1.0) + t * Vector3D(0.5, 0.7, 1.0);
     }
 }
 
@@ -35,27 +35,27 @@ int main() {
     const int width = 200;
     const int height = 100;
 
-    vec3 lower_left_corner(-2.0, -1.0, -1.0);
-    vec3 horizontal(4.0, 0.0, 0.0);
-    vec3 vertical(0.0, 2.0, 0.0);
-    vec3 origin(0.0, 0.0, 0.0);
+    Vector3D lower_left_corner(-2.0, -1.0, -1.0);
+    Vector3D horizontal(4.0, 0.0, 0.0);
+    Vector3D vertical(0.0, 2.0, 0.0);
+    Vector3D origin(0.0, 0.0, 0.0);
 
-    std::vector<std::unique_ptr<hittable>> list;
+    std::vector<std::unique_ptr<Object>> list;
 
-    auto world = std::make_unique<hittable_list>();
-    world->add(std::make_unique<sphere>(vec3(0.0, 0.0, -1.0), 0.5));
-    world->add(std::make_unique<sphere>(vec3(0.0, -100.5, -1.0), 100.0));
+    auto world = std::make_unique<ObjectCollection>();
+    world->add(std::make_unique<Sphere>(Vector3D(0.0, 0.0, -1.0), 0.5));
+    world->add(std::make_unique<Sphere>(Vector3D(0.0, -100.5, -1.0), 100.0));
 
-    std::vector<vec3> pixels(width * height);
+    std::vector<Vector3D> pixels(width * height);
     for (int j = height - 1; j >= 0; j--) {
         for (int i = 0; i < width; i++) {
             double u = double(i) / double(width);
             double v = double(j) / double(height);
-            ray r(origin, lower_left_corner + u * horizontal + v * vertical);
+            Ray r(origin, lower_left_corner + u * horizontal + v * vertical);
 
-            vec3 col = color(r, *world);
+            Vector3D col = color(r, *world);
 
-            pixels[size_t(i + (height - j - 1) * width)] = vec3(255.99 * col.r(), 255.99 * col.g(), 255.99 * col.b());
+            pixels[size_t(i + (height - j - 1) * width)] = Vector3D(255.99 * col.r(), 255.99 * col.g(), 255.99 * col.b());
         }
     }
 

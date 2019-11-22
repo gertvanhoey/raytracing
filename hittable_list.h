@@ -5,26 +5,26 @@
 #include <vector>
 #include <memory>
 
-class hittable_list : public hittable
+class ObjectCollection : public Object
 {
 public:
-    hittable_list() {}
+    ObjectCollection() {}
 
-    void add(std::unique_ptr<hittable> l);
+    void add(std::unique_ptr<Object> l);
 
-    virtual std::optional<hit_record> hit(const ray& r, double t_min, double t_max) const;
+    virtual std::optional<HitRecord> hit(const Ray& r, double t_min, double t_max) const;
 
-    std::vector<std::unique_ptr<hittable>> list;
+    std::vector<std::unique_ptr<Object>> list;
 };
 
-void hittable_list::add(std::unique_ptr<hittable> l)
+void ObjectCollection::add(std::unique_ptr<Object> l)
 {
     list.push_back(std::move(l));
 }
 
-std::optional<hit_record> hittable_list::hit(const ray& r, double t_min, double t_max) const
+std::optional<HitRecord> ObjectCollection::hit(const Ray& r, double t_min, double t_max) const
 {
-    std::optional<hit_record> rec;
+    std::optional<HitRecord> rec;
     double closest_so_far = t_max;
     for (const auto& h : list) {
         auto temp_rec = h->hit(r, t_min, closest_so_far);

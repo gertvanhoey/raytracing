@@ -4,15 +4,15 @@
 #include "ray.h"
 #include <optional>
 
-struct hit_record {
+struct HitRecord {
     double t;
-    vec3 p;
-    vec3 normal;
+    Vector3D p;
+    Vector3D normal;
 };
 
-class hittable {
+class Object {
 public:
-    virtual std::optional<hit_record> hit(const ray& r, double t_min, double t_max) const = 0;
+    virtual std::optional<HitRecord> hit(const Ray& r, double t_min, double t_max) const = 0;
 };
 
 #endif // HITTABLE_H

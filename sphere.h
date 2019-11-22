@@ -3,21 +3,21 @@
 
 #include "hittable.h"
 
-class sphere : public hittable
+class Sphere : public Object
 {
 public:
-    sphere() {}
-    sphere(vec3 cen, double r) : center(cen), radius(r) {}
+    Sphere() {}
+    Sphere(Vector3D cen, double r) : center(cen), radius(r) {}
 
-    virtual std::optional<hit_record> hit(const ray& r, double t_min, double t_max) const;
+    virtual std::optional<HitRecord> hit(const Ray& r, double t_min, double t_max) const;
 
-    vec3 center;
+    Vector3D center;
     double radius;
 };
 
-std::optional<hit_record> sphere::hit(const ray& r, double t_min, double t_max) const
+std::optional<HitRecord> Sphere::hit(const Ray& r, double t_min, double t_max) const
 {
-    vec3 oc = r.origin() - center;
+    Vector3D oc = r.origin() - center;
     double a = dot(r.direction(), r.direction());
     double b = dot(oc, r.direction());
     double c = dot(oc, oc) - radius * radius;
@@ -25,7 +25,7 @@ std::optional<hit_record> sphere::hit(const ray& r, double t_min, double t_max) 
     if (discriminant > 0.0) {
         double temp = (-b - sqrt(discriminant)) / a;
         if (t_min < temp && temp < t_max) {
-            hit_record rec;
+            HitRecord rec;
             rec.t = temp;
             rec.p = r.point_at_parameter(rec.t);
             rec.normal = (rec.p - center) / radius;
@@ -33,7 +33,7 @@ std::optional<hit_record> sphere::hit(const ray& r, double t_min, double t_max) 
         }
         temp = (-b + sqrt(discriminant)) / a;
         if (t_min < temp && temp < t_max) {
-            hit_record rec;
+            HitRecord rec;
             rec.t = temp;
             rec.p = r.point_at_parameter(rec.t);
             rec.normal = (rec.p - center) / radius;
