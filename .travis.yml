@@ -1,19 +1,19 @@
-language: c++
-
+os: linux
+language: python
 python: "3.7"
-
-dist: bionic
-
-compiler: gcc
-
+dist: xenial
+compiler:
+  - gcc
 install:
+# Install conan
   - pip install conan
+# Automatic detection of your arch, compiler, etc.
   - conan user
-  - conan profile new default --detect --force
-  - conan profile update settings.compiler.libcxx=libstdc++11 default
-
 script:
-  - mkdir /tmp/build
-  - cd /tmp/build
-  - cmake ${TRAVIS_BUILD_DIR}
-  - cmake --build . || travis_terminate 1;  
+# Download dependencies and build project
+  - conan install .
+# Call your build system
+  - cmake . -G "Unix Makefiles"
+  - cmake --build .
+# Run your tests
+  - ctest .
