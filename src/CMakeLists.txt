@@ -1,5 +1,4 @@
-add_executable(raytracer 
-    main.cpp
+add_library(raytracing
     vector3d.h
     ray.h
     object.h
@@ -7,8 +6,20 @@ add_executable(raytracer
     objectcollection.cpp
 )
 
+add_executable(raytracer 
+    main.cpp
+)
+
+target_link_libraries(raytracer raytracing)
+
+add_executable(raytracing_benchmark
+    benchmark.cpp
+)
+
+target_link_libraries(raytracing_benchmark raytracing CONAN_PKG::benchmark)
+
 if (MSVC)
-  target_compile_options(raytracer PRIVATE /W4 /WX)
+  target_compile_options(raytracing PRIVATE /W4 /WX)
 else()
-  target_compile_options(raytracer PRIVATE -Wall -Wextra -pedantic -Wconversion -Wsign-conversion -Werror)
+  target_compile_options(raytracing PRIVATE -Wall -Wextra -pedantic -Wconversion -Wsign-conversion -Werror)
 endif()
