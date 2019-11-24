@@ -14,8 +14,8 @@ add_executable(raytracer
     vector3d.h
     ray.h
     object.h
-    sphere.h
-    objectcollection.h
+    sphere.cpp
+    objectcollection.cpp
 )
 
 if (MSVC)

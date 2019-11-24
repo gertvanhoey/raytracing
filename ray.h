@@ -7,7 +7,7 @@ class Ray
 {
 public:
     Ray() = default;
-    Ray(const Vector3D &a, const Vector3D &b) { A = a; B = b; }
+    Ray(const Vector3D& a, const Vector3D& b) { A = a; B = b; }
 
     Vector3D origin() const { return A; }
     Vector3D direction() const { return B; }
