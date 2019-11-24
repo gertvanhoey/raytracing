@@ -9,6 +9,7 @@ compiler: gcc
 install:
   - pip install conan
   - conan user
+  - conan profile new default --detect --force
 
 script:
   - mkdir /tmp/build
