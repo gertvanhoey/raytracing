@@ -1,8 +1,14 @@
 language: c++
 
+python: "3.7"
+
 dist: bionic
+
 compiler: gcc
 
+install:
+  - pip install conan
+  
 script:
   - mkdir /tmp/build
   - cd /tmp/build
