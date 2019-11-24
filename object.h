@@ -5,9 +5,9 @@
 #include <optional>
 
 struct HitRecord {
-    double t;
-    Vector3D p;
-    Vector3D normal;
+    double t {0.0};
+    Vector3D p {0.0, 0.0, 0.0};
+    Vector3D normal {1.0, 0.0, 0.0};
 };
 
 class Object {

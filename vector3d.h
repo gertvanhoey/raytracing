@@ -2,12 +2,12 @@
 #define VECTOR3D_H
 
 #include <iostream>
-#include <math.h>
+#include <cmath>
 
 class Vector3D
 {
 public:
-    Vector3D() {}
+    Vector3D() = default;
     Vector3D(double e0, double e1, double e2) { e[0] = e0; e[1] = e1; e[2] = e2; }
 
     double x() const { return e[0]; }
