@@ -28,5 +28,5 @@ before_build:
 build_script:
   - cmake --build . --target ALL_BUILD --config %configuration%
   
-test_script:
-  - cmake --build . --target RUN_TESTS --config %configuration%
+#test_script:
+#  - cmake --build . --target RUN_TESTS --config %configuration%
