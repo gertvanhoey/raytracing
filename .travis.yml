@@ -4,9 +4,6 @@ python: "3.7"
 
 dist: xenial
 
-compiler:
-  - gcc
-
 matrix:
   include:
     - os: linux
