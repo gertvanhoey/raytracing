@@ -1,0 +1,32 @@
+image: Visual Studio 2017
+
+platform: 
+  - x64
+
+configuration:
+  - Release
+
+environment:
+  VS_VERSION: Visual Studio 15 2017 Win64
+  MSVC_VERSION: 15
+
+install:
+  - set PATH=%PATH%;%PYTHON%/Scripts/
+  - pip.exe --quiet install conan
+  - if "%platform%" == "x64" (
+      call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
+    )
+  - if "%platform%" == "x86" (
+      call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars32.bat"
+    )
+
+before_build:
+  - mkdir build
+  - cd build
+  - cmake -G "%VS_VERSION%" ..
+  
+build_script:
+  - cmake --build . --target ALL_BUILD --config %configuration%
+  
+test_script:
+  - cmake --build . --target RUN_TESTS --config %configuration%
