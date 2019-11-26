@@ -1,10 +1,19 @@
-os: linux
 language: python
 python: "3.7"
 dist: xenial
+
+os: 
+  - linux
+  - osx
+
+compiler:
+  - gcc
+  - clang
+
 matrix:
   include:
     - os: linux
+      compiler: gcc
       addons:
         apt:
           sources:
@@ -13,15 +22,25 @@ matrix:
             - g++-7
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+    - os: osx
+      compiler: clang
+      
 before_install:
   - export CC
   - export CXX
   - eval "${MATRIX_EVAL}"
+
 install:
-  - pip install conan
+  - |
+    if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
+      pip install conan
+    else
+      brew install conan
+    fi
   - conan user
   - conan profile new default --detect --force
   - conan profile update settings.compiler.libcxx=libstdc++11 default
+
 script:
   - cmake . -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release
   - cmake --build .
