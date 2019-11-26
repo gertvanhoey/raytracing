@@ -1,8 +1,7 @@
-language: python
-
 matrix:
   include:
     - os: linux
+      language: python
       python: "3.7"
       dist: xenial
       addons:
@@ -13,19 +12,19 @@ matrix:
             - g++-7
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+      before_install:
+        - export CC
+        - export CXX
+        - eval "${MATRIX_EVAL}"
+      install:
+        - pip install conan
+        - conan user
+        - conan profile new default --detect --force
+        - conan profile update settings.compiler.libcxx=libstdc++11 default
+    
     - os: osx
       osx_image: xcode10.1
-      python: "3.7"
     
-before_install:
-  - export CC
-  - export CXX
-  - eval "${MATRIX_EVAL}"
-install:
-  - pip install conan
-  - conan user
-  - conan profile new default --detect --force
-  - conan profile update settings.compiler.libcxx=libstdc++11 default
 script:
   - cmake . -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release
   - cmake --build .
