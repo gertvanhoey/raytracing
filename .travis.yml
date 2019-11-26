@@ -1,4 +1,4 @@
-matrix:
+jobs:
   include:
     - os: linux
       language: python
@@ -24,6 +24,8 @@ matrix:
     
     - os: osx
       osx_image: xcode10.1
+      install:
+        - brew install conan
     
 script:
   - cmake . -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release
