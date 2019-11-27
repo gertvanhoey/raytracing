@@ -23,15 +23,15 @@ else()
 endif()
 
 
-add_executable(raytracer 
+add_executable(example
     main.cpp
 )
-target_link_libraries(raytracer raytracing)
+target_link_libraries(example raytracing)
 
 if (CONAN)
-    add_executable(raytracing_benchmark
+    add_executable(benchmark
         benchmark.cpp
     )
-    target_link_libraries(raytracing_benchmark raytracing CONAN_PKG::benchmark)
+    target_link_libraries(benchmark raytracing CONAN_PKG::benchmark)
 endif()
 
