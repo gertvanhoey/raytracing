@@ -1,9 +1,10 @@
 #ifndef SPHERE_H
 #define SPHERE_H
 
+#include "raytracing_export.h"
 #include "object.h"
 
-class Sphere : public Object
+class RAYTRACING_EXPORT Sphere : public Object
 {
 public:
     Sphere() = default;

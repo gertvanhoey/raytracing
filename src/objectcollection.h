@@ -1,11 +1,12 @@
 #ifndef OBJECT_COLLECTION_H
 #define OBJECT_COLLECTION_H
 
+#include "raytracing_export.h"
 #include "object.h"
 #include <vector>
 #include <memory>
 
-class ObjectCollection : public Object
+class RAYTRACING_EXPORT ObjectCollection : public Object
 {
 public:
     void add(std::unique_ptr<Object> l);
