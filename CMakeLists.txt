@@ -17,23 +17,22 @@ project(raytracing LANGUAGES CXX)
 # ------------------
 
 find_program(CONAN conan)
+
 if (NOT CONAN)
-    message(FATAL_ERROR "Needs conan package manager: please visit https://conan.io and install")
+    message(WARNING "Building the benchmark requires Conan package manager: please visit https://conan.io and install")
+else()
+    if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
+       message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
+       file(DOWNLOAD "https://github.com/conan-io/cmake-conan/raw/v0.14/conan.cmake"
+                     "${CMAKE_BINARY_DIR}/conan.cmake")
+    endif()
+
+    include(${CMAKE_BINARY_DIR}/conan.cmake)
+
+    conan_cmake_run(CONANFILE conanfile.txt
+            BASIC_SETUP CMAKE_TARGETS
+            BUILD missing)
 endif ()
-
-if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
-   message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
-   file(DOWNLOAD "https://github.com/conan-io/cmake-conan/raw/v0.14/conan.cmake"
-                 "${CMAKE_BINARY_DIR}/conan.cmake")
-endif()
-
-include(${CMAKE_BINARY_DIR}/conan.cmake)
-
-#conan_add_remote(NAME mpusz INDEX 1 URL https://api.bintray.com/conan/mpusz/conan-mpusz)
-
-conan_cmake_run(CONANFILE conanfile.txt
-        BASIC_SETUP CMAKE_TARGETS
-        BUILD missing)
 
 # Targets
 # -------
