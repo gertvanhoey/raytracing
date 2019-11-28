@@ -1,2 +1,3 @@
 [requires]
 benchmark/1.5.0
+Catch2/2.10.2@catchorg/stable
