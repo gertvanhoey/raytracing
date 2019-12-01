@@ -1,10 +1,11 @@
 #ifndef VECTOR3D_H
 #define VECTOR3D_H
 
+#include "raytracing_export.h"
 #include <iostream>
 #include <cmath>
 
-class Vec3
+class RAYTRACING_EXPORT Vec3
 {
 public:
     Vec3() = default;

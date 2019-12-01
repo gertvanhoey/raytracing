@@ -1,9 +1,10 @@
 #ifndef RAY_H
 #define RAY_H
 
+#include "raytracing_export.h"
 #include "vec3.h"
 
-class Ray
+class RAYTRACING_EXPORT Ray
 {
 public:
     Ray() = default;

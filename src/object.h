@@ -1,16 +1,17 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
+#include "raytracing_export.h"
 #include "ray.h"
 #include <optional>
 
-struct HitRecord {
+struct RAYTRACING_EXPORT HitRecord {
     double t {0.0};
     Vec3 p {0.0, 0.0, 0.0};
     Vec3 normal {1.0, 0.0, 0.0};
 };
 
-class Object {
+class RAYTRACING_EXPORT Object {
 public:
     Object() = default;
     virtual ~Object() = default;

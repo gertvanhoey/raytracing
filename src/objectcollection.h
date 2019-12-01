@@ -9,12 +9,15 @@
 class RAYTRACING_EXPORT ObjectCollection : public Object
 {
 public:
+    ObjectCollection();
+    ~ObjectCollection() override;
+
     void add(std::unique_ptr<Object> l);
     std::optional<HitRecord> hit(const Ray& r, double t_min, double t_max) const override;
 
 private:
-    std::vector<std::unique_ptr<Object>> m_objects;
+    class Impl;
+    Impl* m_pimpl;
 };
-
 
 #endif // OBJECT_COLLECTION_H
