@@ -6,8 +6,8 @@
 
 struct HitRecord {
     double t {0.0};
-    Vector3D p {0.0, 0.0, 0.0};
-    Vector3D normal {1.0, 0.0, 0.0};
+    Vec3 p {0.0, 0.0, 0.0};
+    Vec3 normal {1.0, 0.0, 0.0};
 };
 
 class Object {

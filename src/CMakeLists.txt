@@ -2,7 +2,7 @@ set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
 
 add_library(raytracing
-    vector3d.h
+    vec3.h
     ray.h
     object.h
     sphere.cpp

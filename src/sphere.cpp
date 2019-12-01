@@ -2,7 +2,7 @@
 
 std::optional<HitRecord> Sphere::hit(const Ray& r, double t_min, double t_max) const
 {
-    Vector3D oc = r.origin() - m_center;
+    Vec3 oc = r.origin() - m_center;
     const auto a = dot(r.direction(), r.direction());
     const auto b = dot(oc, r.direction());
     const auto c = dot(oc, oc) - m_radius * m_radius;
