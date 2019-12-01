@@ -12,6 +12,11 @@ public:
     ObjectCollection();
     ~ObjectCollection() override;
 
+    ObjectCollection(const ObjectCollection&) = delete;
+    ObjectCollection& operator=(const ObjectCollection&) = delete;
+    ObjectCollection(ObjectCollection&&) = delete;
+    ObjectCollection& operator=(ObjectCollection&&) = delete;
+
     void add(std::unique_ptr<Object> l);
     std::optional<HitRecord> hit(const Ray& r, double t_min, double t_max) const override;
 
