@@ -28,6 +28,7 @@ if (CONAN)
     include(${CMAKE_BINARY_DIR}/conan.cmake)
 
     conan_cmake_run(CONANFILE conanfile.txt
+            CONAN_COMMAND ${CONAN}
             BASIC_SETUP CMAKE_TARGETS
             BUILD missing)
 endif ()
