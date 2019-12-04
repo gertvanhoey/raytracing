@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.9)
 
 # CMake
 # -----
@@ -37,6 +37,9 @@ endif ()
 
 set(CMAKE_CXX_STANDARD 17)
 enable_testing()
+
+# Make sure dynamic libraries are found at runtime on Mac
+set(CMAKE_MACOSX_RPATH OFF)
 
 add_subdirectory(src)
 
