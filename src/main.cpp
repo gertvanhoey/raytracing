@@ -1,6 +1,8 @@
-#include "float.h"
+#include <cfloat>
 #include "objectcollection.h"
 #include "sphere.h"
+#include "camera.h"
+#include "random.h"
 #include <vector>
 #include <string>
 #include <limits>
@@ -20,20 +22,23 @@ void save_to_ppm(const std::string& filename, const std::vector<Vec3>& pixels, i
 
 Vec3 color(const Ray& r, const Object& world) {
     auto rec = world.hit(r, 0.0, std::numeric_limits<double>::max());
+    Vec3 result;
     if (rec) {
         auto normal = rec->normal;
-        return 0.5 * Vec3(normal.x() + 1.0, normal.y() + 1.0, normal.z() + 1.0);
+        result = 0.5 * Vec3(normal.x() + 1.0, normal.y() + 1.0, normal.z() + 1.0);
     }
     else {
         Vec3 unit_direction = unit_vector(r.direction());
         double t = 0.5 * (unit_direction.y() + 1.0);
-        return (1.0 - t) * Vec3(1.0, 1.0, 1.0) + t * Vec3(0.5, 0.7, 1.0);
+        result = (1.0 - t) * Vec3(1.0, 1.0, 1.0) + t * Vec3(0.5, 0.7, 1.0);
     }
+    return result;
 }
 
 int main() {
-    const int width = 200;
-    const int height = 100;
+    const int width = 1920;
+    const int height = 1080;
+    const int numSamples = 100;
 
     Vec3 lower_left_corner(-2.0, -1.0, -1.0);
     Vec3 horizontal(4.0, 0.0, 0.0);
@@ -46,16 +51,20 @@ int main() {
     world->add(std::make_unique<Sphere>(Vec3(0.0, 0.0, -1.0), 0.5));
     world->add(std::make_unique<Sphere>(Vec3(0.0, -100.5, -1.0), 100.0));
 
+    Camera camera;
+
     std::vector<Vec3> pixels(width * height);
     for (int j = height - 1; j >= 0; j--) {
         for (int i = 0; i < width; i++) {
-            double u = double(i) / double(width);
-            double v = double(j) / double(height);
-            Ray r(origin, lower_left_corner + u * horizontal + v * vertical);
-
-            Vec3 col = color(r, *world);
-
-            pixels[size_t(i + (height - j - 1) * width)] = Vec3(255.99 * col.r(), 255.99 * col.g(), 255.99 * col.b());
+            Vec3 pixel(0.0, 0.0, 0.0);
+            for (int s = 0; s < numSamples; s++) {
+                const double u = (double(i) + random_double()) / double(width);
+                const double v = (double(j) + random_double()) / double(height);
+                const Ray r = camera.get_ray(u, v);
+                pixel += color(r, *world);
+            }
+            pixel /= double(numSamples);
+            pixels[i + (height - j - 1) * width] = Vec3(255.99 * pixel.r(), 255.99 * pixel.g(), 255.99 * pixel.b());
         }
     }
 
