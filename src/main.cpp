@@ -20,12 +20,21 @@ void save_to_ppm(const std::string& filename, const std::vector<Vec3>& pixels, i
     output.close();
 }
 
+Vec3 random_in_unit_sphere() {
+    Vec3 p;
+    do {
+        p = 2.0 * Vec3(random_double(), random_double(), random_double()) - Vec3(1.0, 1.0, 1.0);
+    } while (p.squared_length() >= 1.0);
+    return p;
+}
+
 Vec3 color(const Ray& r, const Object& world) {
-    auto rec = world.hit(r, 0.0, std::numeric_limits<double>::max());
+    auto rec = world.hit(r, 0.001, std::numeric_limits<double>::max());
     Vec3 result;
     if (rec) {
         auto normal = rec->normal;
-        result = 0.5 * Vec3(normal.x() + 1.0, normal.y() + 1.0, normal.z() + 1.0);
+        Vec3 target = rec->p + rec->normal + random_in_unit_sphere();
+        result = 0.5 * color(Ray(rec->p, target - rec->p), world);
     }
     else {
         Vec3 unit_direction = unit_vector(r.direction());
@@ -36,8 +45,8 @@ Vec3 color(const Ray& r, const Object& world) {
 }
 
 int main() {
-    const int width = 1920;
-    const int height = 1080;
+    const int width = 200;
+    const int height = 100;
     const int numSamples = 100;
 
     Vec3 lower_left_corner(-2.0, -1.0, -1.0);
@@ -64,6 +73,7 @@ int main() {
                 pixel += color(r, *world);
             }
             pixel /= double(numSamples);
+            pixel = Vec3(sqrt(pixel[0]), sqrt(pixel[1]), sqrt(pixel[2]));
             pixels[i + (height - j - 1) * width] = Vec3(255.99 * pixel.r(), 255.99 * pixel.g(), 255.99 * pixel.b());
         }
     }
