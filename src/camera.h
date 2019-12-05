@@ -1,9 +1,10 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
+#include "raytracing_export.h"
 #include "ray.h"
 
-class Camera
+class RAYTRACING_EXPORT Camera
 {
 public:
     Camera() = default;
