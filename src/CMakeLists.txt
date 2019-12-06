@@ -3,12 +3,13 @@ set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
 
 add_library(raytracing
     camera.cpp
-    vec3.h
+    lambertian.cpp
+    object.h
+    objectcollection.cpp
     random.h
     ray.h
-    object.h
     sphere.cpp
-    objectcollection.cpp
+    vec3.h
 )
 
 target_include_directories(raytracing PUBLIC

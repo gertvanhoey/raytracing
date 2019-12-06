@@ -3,6 +3,7 @@
 #include "sphere.h"
 #include "camera.h"
 #include "random.h"
+#include "lambertian.h"
 #include <vector>
 #include <string>
 #include <limits>
@@ -20,26 +21,27 @@ void save_to_ppm(const std::string& filename, const std::vector<Vec3>& pixels, i
     output.close();
 }
 
-Vec3 random_in_unit_sphere() {
-    Vec3 p;
-    do {
-        p = 2.0 * Vec3(random_double(), random_double(), random_double()) - Vec3(1.0, 1.0, 1.0);
-    } while (p.squared_length() >= 1.0);
-    return p;
-}
-
-Vec3 color(const Ray& r, const Object& world) {
+Vec3 color(const Ray& r, const Object& world, int depth) {
     auto rec = world.hit(r, 0.001, std::numeric_limits<double>::max());
     Vec3 result;
     if (rec) {
-        auto normal = rec->normal;
-        Vec3 target = rec->p + rec->normal + random_in_unit_sphere();
-        result = 0.5 * color(Ray(rec->p, target - rec->p), world);
+        if (depth < 50) {
+            auto scattered = rec->material->scatter(r, *rec);
+            if (scattered) {
+                result = color(*scattered, world, depth + 1);
+            }
+            else {
+                result = Vec3(0.0, 0.0, 0.0);
+            }
+        }
+        else {
+            result = Vec3(0.0, 0.0, 0.0);
+        }
     }
     else {
         Vec3 unit_direction = unit_vector(r.direction());
         double t = 0.5 * (unit_direction.y() + 1.0);
-        result = (1.0 - t) * Vec3(1.0, 1.0, 1.0) + t * Vec3(0.5, 0.7, 1.0);
+        result = r.color * ((1.0 - t) * Vec3(1.0, 1.0, 1.0) + t * Vec3(0.5, 0.7, 1.0));
     }
     return result;
 }
@@ -57,8 +59,8 @@ int main() {
     std::vector<std::unique_ptr<Object>> list;
 
     auto world = std::make_unique<ObjectCollection>();
-    world->add(std::make_unique<Sphere>(Vec3(0.0, 0.0, -1.0), 0.5));
-    world->add(std::make_unique<Sphere>(Vec3(0.0, -100.5, -1.0), 100.0));
+    world->add(std::make_unique<Sphere>(Vec3(0.0, 0.0, -1.0), 0.5, std::make_shared<Lambertian>(Vec3(0.8, 0.3, 0.3))));
+    world->add(std::make_unique<Sphere>(Vec3(0.0, -100.5, -1.0), 100.0, std::make_shared<Lambertian>(Vec3(0.8, 0.8, 0.0))));
 
     Camera camera;
 
@@ -70,7 +72,7 @@ int main() {
                 const double u = (double(i) + random_double()) / double(width);
                 const double v = (double(j) + random_double()) / double(height);
                 const Ray r = camera.get_ray(u, v);
-                pixel += color(r, *world);
+                pixel += color(r, *world, 0);
             }
             pixel /= double(numSamples);
             pixel = Vec3(sqrt(pixel[0]), sqrt(pixel[1]), sqrt(pixel[2]));

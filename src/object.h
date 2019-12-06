@@ -5,10 +5,13 @@
 #include "ray.h"
 #include <optional>
 
+class Material;
+
 struct RAYTRACING_EXPORT HitRecord {
     double t {0.0};
     Vec3 p {0.0, 0.0, 0.0};
     Vec3 normal {1.0, 0.0, 0.0};
+    Material* material {nullptr};
 };
 
 class RAYTRACING_EXPORT Object {
