@@ -3,6 +3,7 @@
 
 #include "raytracing_export.h"
 #include "object.h"
+#include <memory>
 
 class Material;
 
