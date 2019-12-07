@@ -3,7 +3,9 @@ set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
 
 add_library(raytracing
     camera.cpp
+    dielectric.cpp
     lambertian.cpp
+    material.cpp
     metal.cpp
     object.h
     objectcollection.cpp

@@ -12,8 +12,6 @@ public:
     std::optional<Ray> scatter(const Ray& ray, const HitRecord& record) const override;
 
 private:
-    Vec3 reflect(const Vec3& v, const Vec3& n) const;
-
     Vec3 m_albedo;
     double m_fuzziness;
 };

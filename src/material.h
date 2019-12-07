@@ -16,6 +16,9 @@ public:
     Material& operator=(Material&&) = default;
 
     virtual std::optional<Ray> scatter(const Ray& ray, const HitRecord& record) const = 0;
+
+    static Vec3 reflect(const Vec3& v, const Vec3& n);
+    static std::optional<Vec3> refract(const Vec3& v, const Vec3& n, double ni_over_nt);
 };
 
 #endif // MATERIAL_H
