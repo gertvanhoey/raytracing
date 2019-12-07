@@ -7,7 +7,7 @@
 class RAYTRACING_EXPORT Camera
 {
 public:
-    Camera() = default;
+    Camera(Vec3 lookFrom, Vec3 lookAt, Vec3 viewUp, double fieldOfViewVerticalDegrees, double aspectRatio);
 
     Ray get_ray(double u, double v) const;
 

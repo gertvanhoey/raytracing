@@ -11,6 +11,7 @@
 #include <limits>
 #include <iostream>
 #include <fstream>
+#include <cmath>
 
 void save_to_ppm(const std::string& filename, const std::vector<Vec3>& pixels, int width, int height) {
     (void)pixels;
@@ -72,7 +73,12 @@ int main() {
     world->add(std::make_unique<Sphere>(Vec3(-1.0, 0.0, -1.0), 0.5, dielectric));
     world->add(std::make_unique<Sphere>(Vec3(-1.0, 0.0, -1.0), -0.45, dielectric));
 
-    Camera camera;
+//    const double R = cos(M_PI / 4.0);
+//    auto world = std::make_unique<ObjectCollection>();
+//    world->add(std::make_unique<Sphere>(Vec3(-R, 0.0, -1.0), R, std::make_shared<Lambertian>(Vec3(0.0, 0.0, 1.0))));
+//    world->add(std::make_unique<Sphere>(Vec3(R, 0.0, -1.0), R, std::make_shared<Lambertian>(Vec3(1.0, 0.0, 0.0))));
+
+    Camera camera(Vec3(-2.0, 2.0, 1.0), Vec3(0.0, 0.0, -1.0), Vec3(0.0, 1.0, 0.0), 20.0, double(width) / double(height));
 
     std::vector<Vec3> pixels(width * height);
     for (int j = height - 1; j >= 0; j--) {
