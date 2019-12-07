@@ -79,7 +79,14 @@ int main() {
 //    world->add(std::make_unique<Sphere>(Vec3(-R, 0.0, -1.0), R, std::make_shared<Lambertian>(Vec3(0.0, 0.0, 1.0))));
 //    world->add(std::make_unique<Sphere>(Vec3(R, 0.0, -1.0), R, std::make_shared<Lambertian>(Vec3(1.0, 0.0, 0.0))));
 
-    Camera camera(Vec3(-2.0, 2.0, 1.0), Vec3(0.0, 0.0, -1.0), Vec3(0.0, 1.0, 0.0), 20.0, double(width) / double(height));
+    const Vec3 lookFrom(3.0, 3.0, 2.0);
+    const Vec3 lookAt(0.0, 0.0, -1.0);
+    const double distanceToFocus = (lookFrom - lookAt).length();
+    const double aperture = 2.0;
+
+    Camera camera(lookFrom, lookAt, Vec3(0.0, 1.0, 0.0), 20.0, double(width) / double(height), aperture, distanceToFocus);
+
+//    Camera camera(Vec3(-2.0, 2.0, 1.0), Vec3(0.0, 0.0, -1.0), Vec3(0.0, 1.0, 0.0), 20.0, double(width) / double(height));
 
     std::vector<Vec3> pixels(width * height);
     for (int j = height - 1; j >= 0; j--) {
