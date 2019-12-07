@@ -4,6 +4,7 @@
 #include "camera.h"
 #include "random.h"
 #include "lambertian.h"
+#include "metal.h"
 #include <vector>
 #include <string>
 #include <limits>
@@ -58,9 +59,16 @@ int main() {
 
     std::vector<std::unique_ptr<Object>> list;
 
+    auto lambertian1 = std::make_shared<Lambertian>(Vec3(0.8, 0.3, 0.3));
+    auto lambertian2 = std::make_shared<Lambertian>(Vec3(0.8, 0.8, 0.0));
+    auto metal1 = std::make_shared<Metal>(Vec3(0.8, 0.6, 0.2));
+    auto metal2 = std::make_shared<Metal>(Vec3(0.8, 0.8, 0.8));
+
     auto world = std::make_unique<ObjectCollection>();
-    world->add(std::make_unique<Sphere>(Vec3(0.0, 0.0, -1.0), 0.5, std::make_shared<Lambertian>(Vec3(0.8, 0.3, 0.3))));
-    world->add(std::make_unique<Sphere>(Vec3(0.0, -100.5, -1.0), 100.0, std::make_shared<Lambertian>(Vec3(0.8, 0.8, 0.0))));
+    world->add(std::make_unique<Sphere>(Vec3(0.0, 0.0, -1.0), 0.5, lambertian1));
+    world->add(std::make_unique<Sphere>(Vec3(0.0, -100.5, -1.0), 100.0, lambertian2));
+    world->add(std::make_unique<Sphere>(Vec3(1.0, 0.0, -1.0), 0.5, metal1));
+    world->add(std::make_unique<Sphere>(Vec3(-1.0, 0.0, -1.0), 0.5, metal2));
 
     Camera camera;
 
