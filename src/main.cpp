@@ -1,3 +1,5 @@
+#define _USE_MATH_DEFINES
+#include <cmath>
 #include <cfloat>
 #include "objectcollection.h"
 #include "sphere.h"
@@ -11,7 +13,6 @@
 #include <limits>
 #include <iostream>
 #include <fstream>
-#include <cmath>
 
 void save_to_ppm(const std::string& filename, const std::vector<Vec3>& pixels, int width, int height) {
     (void)pixels;

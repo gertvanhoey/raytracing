@@ -1,5 +1,6 @@
-#include "camera.h"
+#define _USE_MATH_DEFINES
 #include <cmath>
+#include "camera.h"
 
 Camera::Camera(Vec3 lookFrom, Vec3 lookAt, Vec3 viewUp,
                double fieldOfViewVerticalDegrees, double aspectRatio)
