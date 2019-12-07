@@ -61,8 +61,8 @@ int main() {
 
     auto lambertian1 = std::make_shared<Lambertian>(Vec3(0.8, 0.3, 0.3));
     auto lambertian2 = std::make_shared<Lambertian>(Vec3(0.8, 0.8, 0.0));
-    auto metal1 = std::make_shared<Metal>(Vec3(0.8, 0.6, 0.2));
-    auto metal2 = std::make_shared<Metal>(Vec3(0.8, 0.8, 0.8));
+    auto metal1 = std::make_shared<Metal>(Vec3(0.8, 0.6, 0.2), 1.0);
+    auto metal2 = std::make_shared<Metal>(Vec3(0.8, 0.8, 0.8), 0.3);
 
     auto world = std::make_unique<ObjectCollection>();
     world->add(std::make_unique<Sphere>(Vec3(0.0, 0.0, -1.0), 0.5, lambertian1));
