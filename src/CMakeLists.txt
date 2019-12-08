@@ -11,6 +11,7 @@ add_library(raytracing
     objectcollection.cpp
     random.h
     ray.h
+    renderer.cpp
     sphere.cpp
     vec3.h
     world.cpp

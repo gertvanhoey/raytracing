@@ -1,65 +1,34 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <cfloat>
-#include "objectcollection.h"
-#include "sphere.h"
-#include "camera.h"
-#include "random.h"
-#include "lambertian.h"
-#include "metal.h"
-#include "dielectric.h"
-#include "world.h"
 #include <vector>
 #include <string>
 #include <limits>
 #include <iostream>
 #include <fstream>
+#include "objectcollection.h"
+#include "camera.h"
+#include "material.h"
+#include "renderer.h"
+#include "world.h"
 
 void save_to_ppm(const std::string& filename, const std::vector<Vec3>& pixels, int width, int height) {
-    (void)pixels;
     std::ofstream output;
     output.open(filename);
     output << "P3\n" << width << " " << height << "\n255\n";
     for (const auto& pixel : pixels) {
-        output << int(pixel.r()) << " " << int(pixel.g()) << " " << int(pixel.b()) << "\n";
+        Vec3 encodedPixel(sqrt(pixel[0]), sqrt(pixel[1]), sqrt(pixel[2]));
+        Vec3 scaledPixel(255.99 * encodedPixel.r(), 255.99 * encodedPixel.g(), 255.99 * encodedPixel.b());
+
+        output << int(scaledPixel.r()) << " " << int(scaledPixel.g()) << " " << int(scaledPixel.b()) << "\n";
     }
     output.close();
 }
 
-Vec3 color(const Ray& r, const Object& world, int depth) {
-    auto rec = world.hit(r, 0.001, std::numeric_limits<double>::max());
-    Vec3 result;
-    if (rec) {
-        if (depth < 50) {
-            auto scattered = rec->material->scatter(r, *rec);
-            if (scattered) {
-                result = color(*scattered, world, depth + 1);
-            }
-            else {
-                result = Vec3(0.0, 0.0, 0.0);
-            }
-        }
-        else {
-            result = Vec3(0.0, 0.0, 0.0);
-        }
-    }
-    else {
-        Vec3 unit_direction = unit_vector(r.direction());
-        double t = 0.5 * (unit_direction.y() + 1.0);
-        result = r.color * ((1.0 - t) * Vec3(1.0, 1.0, 1.0) + t * Vec3(0.5, 0.7, 1.0));
-    }
-    return result;
-}
-
 int main() {
-    const int width = 120;
-    const int height = 90;
-    const int numSamples = 100;
-
-    Vec3 lower_left_corner(-2.0, -1.0, -1.0);
-    Vec3 horizontal(4.0, 0.0, 0.0);
-    Vec3 vertical(0.0, 2.0, 0.0);
-    Vec3 origin(0.0, 0.0, 0.0);
+    const int width = 160;
+    const int height = 120;
+    const int numRaysPerPixel = 100;
 
     auto world = World::randomScene();
 
@@ -69,21 +38,7 @@ int main() {
     const double aperture = 0.05;
     Camera camera(lookFrom, lookAt, Vec3(0.0, 1.0, 0.0), 30.0, double(width) / double(height), aperture, distanceToFocus);
 
-    std::vector<Vec3> pixels(width * height);
-    for (int j = height - 1; j >= 0; j--) {
-        for (int i = 0; i < width; i++) {
-            Vec3 pixel(0.0, 0.0, 0.0);
-            for (int s = 0; s < numSamples; s++) {
-                const double u = (double(i) + random_double()) / double(width);
-                const double v = (double(j) + random_double()) / double(height);
-                const Ray r = camera.get_ray(u, v);
-                pixel += color(r, *world, 0);
-            }
-            pixel /= double(numSamples);
-            pixel = Vec3(sqrt(pixel[0]), sqrt(pixel[1]), sqrt(pixel[2]));
-            pixels[i + (height - j - 1) * width] = Vec3(255.99 * pixel.r(), 255.99 * pixel.g(), 255.99 * pixel.b());
-        }
-    }
+    auto pixels = Renderer::render(*world, camera, width, height, numRaysPerPixel);
 
     save_to_ppm("image.ppm", pixels, width, height);
 
