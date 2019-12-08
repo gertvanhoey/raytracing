@@ -8,6 +8,7 @@
 #include "lambertian.h"
 #include "metal.h"
 #include "dielectric.h"
+#include "world.h"
 #include <vector>
 #include <string>
 #include <limits>
@@ -51,8 +52,8 @@ Vec3 color(const Ray& r, const Object& world, int depth) {
 }
 
 int main() {
-    const int width = 200;
-    const int height = 100;
+    const int width = 120;
+    const int height = 90;
     const int numSamples = 100;
 
     Vec3 lower_left_corner(-2.0, -1.0, -1.0);
@@ -60,33 +61,13 @@ int main() {
     Vec3 vertical(0.0, 2.0, 0.0);
     Vec3 origin(0.0, 0.0, 0.0);
 
-    std::vector<std::unique_ptr<Object>> list;
+    auto world = World::randomScene();
 
-    auto lambertian1 = std::make_shared<Lambertian>(Vec3(0.1, 0.2, 0.5));
-    auto lambertian2 = std::make_shared<Lambertian>(Vec3(0.8, 0.8, 0.0));
-    auto metal = std::make_shared<Metal>(Vec3(0.8, 0.6, 0.2), 0.0);
-    auto dielectric = std::make_shared<Dielectric>(1.5);
-
-    auto world = std::make_unique<ObjectCollection>();
-    world->add(std::make_unique<Sphere>(Vec3(0.0, 0.0, -1.0), 0.5, lambertian1));
-    world->add(std::make_unique<Sphere>(Vec3(0.0, -100.5, -1.0), 100.0, lambertian2));
-    world->add(std::make_unique<Sphere>(Vec3(1.0, 0.0, -1.0), 0.5, metal));
-    world->add(std::make_unique<Sphere>(Vec3(-1.0, 0.0, -1.0), 0.5, dielectric));
-    world->add(std::make_unique<Sphere>(Vec3(-1.0, 0.0, -1.0), -0.45, dielectric));
-
-//    const double R = cos(M_PI / 4.0);
-//    auto world = std::make_unique<ObjectCollection>();
-//    world->add(std::make_unique<Sphere>(Vec3(-R, 0.0, -1.0), R, std::make_shared<Lambertian>(Vec3(0.0, 0.0, 1.0))));
-//    world->add(std::make_unique<Sphere>(Vec3(R, 0.0, -1.0), R, std::make_shared<Lambertian>(Vec3(1.0, 0.0, 0.0))));
-
-    const Vec3 lookFrom(3.0, 3.0, 2.0);
-    const Vec3 lookAt(0.0, 0.0, -1.0);
+    const Vec3 lookFrom(12.0, 2.0, 4.0);
+    const Vec3 lookAt(0.0, 0.0, 0.0);
     const double distanceToFocus = (lookFrom - lookAt).length();
-    const double aperture = 2.0;
-
-    Camera camera(lookFrom, lookAt, Vec3(0.0, 1.0, 0.0), 20.0, double(width) / double(height), aperture, distanceToFocus);
-
-//    Camera camera(Vec3(-2.0, 2.0, 1.0), Vec3(0.0, 0.0, -1.0), Vec3(0.0, 1.0, 0.0), 20.0, double(width) / double(height));
+    const double aperture = 0.05;
+    Camera camera(lookFrom, lookAt, Vec3(0.0, 1.0, 0.0), 30.0, double(width) / double(height), aperture, distanceToFocus);
 
     std::vector<Vec3> pixels(width * height);
     for (int j = height - 1; j >= 0; j--) {

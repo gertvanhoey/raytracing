@@ -13,6 +13,7 @@ add_library(raytracing
     ray.h
     sphere.cpp
     vec3.h
+    world.cpp
 )
 
 target_include_directories(raytracing PUBLIC
