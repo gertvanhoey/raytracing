@@ -1,10 +1,11 @@
 #ifndef WORLD_H
 #define WORLD_H
 
+#include "raytracing_export.h"
 #include "object.h"
 #include <memory>
 
-class World
+class RAYTRACING_EXPORT World
 {
 public:
     World() = delete;
