@@ -1,0 +1,10 @@
+Run on (8 X 3600 MHz CPU s)
+CPU Caches:
+  L1 Data 32K (x8)
+  L1 Instruction 32K (x8)
+  L2 Unified 262K (x8)
+  L3 Unified 12582K (x1)
+---------------------------------------------------------------
+Benchmark                     Time             CPU   Iterations
+---------------------------------------------------------------
+BM_RenderRandomScene 17337848100 ns   17328125000 ns            1
