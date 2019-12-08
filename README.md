@@ -3,3 +3,5 @@
 
 # raytracing
 Experiments with raytracing, inspired by https://raytracing.github.io/
+
+![Random scene, 1000 rays per pixel](https://github.com/gertvanhoey/raytracing/blob/master/randomscene_640x480_1000rpp.png)
