@@ -26,8 +26,8 @@ void save_to_ppm(const std::string& filename, const std::vector<Vec3>& pixels, i
 }
 
 int main() {
-    const int width = 160;
-    const int height = 120;
+    const size_t width = 160;
+    const size_t height = 120;
     const int numRaysPerPixel = 100;
 
     auto world = World::randomScene();

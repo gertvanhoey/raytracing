@@ -4,20 +4,20 @@
 #include "material.h"
 #include "camera.h"
 
-std::vector<Vec3> Renderer::render(const Object& object, const Camera& camera, int width, int height, int numRaysPerPixel)
+std::vector<Vec3> Renderer::render(const Object& object, const Camera& camera, size_t width, size_t height, int numRaysPerPixel)
 {
     std::vector<Vec3> pixels(width * height);
-    for (int j = height - 1; j >= 0; j--) {
-        for (int i = 0; i < width; i++) {
+    for (size_t j = 0; j < height; j++) {
+        for (size_t i = 0; i < width; i++) {
             Vec3 pixel(0.0, 0.0, 0.0);
             for (int s = 0; s < numRaysPerPixel; s++) {
                 const double u = (double(i) + random_double()) / double(width);
-                const double v = (double(j) + random_double()) / double(height);
+                const double v = (double(height - 1 - j) + random_double()) / double(height);
                 const Ray r = camera.get_ray(u, v);
                 pixel += color(r, object, 0);
             }
             pixel /= double(numRaysPerPixel);
-            pixels[i + (height - j - 1) * width] = pixel;
+            pixels[i + j * width] = pixel;
         }
     }
     return pixels;

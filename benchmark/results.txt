@@ -1,3 +1,4 @@
+Windows, Visual Studio 2017 compiler 64-bit
 Run on (8 X 3600 MHz CPU s)
 CPU Caches:
   L1 Data 32K (x8)
@@ -8,3 +9,16 @@ CPU Caches:
 Benchmark                     Time             CPU   Iterations
 ---------------------------------------------------------------
 BM_RenderRandomScene 17337848100 ns   17328125000 ns            1
+
+Mac, Apple Clang version 11.0.0
+Run on (8 X 2300 MHz CPU s)
+CPU Caches:
+  L1 Data 32K (x4)
+  L1 Instruction 32K (x4)
+  L2 Unified 262K (x4)
+  L3 Unified 6291K (x1)
+Load Average: 1.40, 1.62, 1.42
+---------------------------------------------------------------
+Benchmark                     Time             CPU   Iterations
+---------------------------------------------------------------
+BM_RenderRandomScene 14754305808 ns   14751834000 ns            1

@@ -14,7 +14,7 @@ class RAYTRACING_EXPORT Renderer
 public:
     Renderer() = delete;
 
-    static std::vector<Vec3> render(const Object& object, const Camera& camera, int width, int height, int numRaysPerPixel);
+    static std::vector<Vec3> render(const Object& object, const Camera& camera, size_t width, size_t height, int numRaysPerPixel);
 
 private:
     static Vec3 color(const Ray& r, const Object& world, int depth);
