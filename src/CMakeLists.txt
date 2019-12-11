@@ -37,3 +37,5 @@ add_executable(example
     main.cpp
 )
 target_link_libraries(example raytracing)
+
+add_executable(example_cuda add.cu)
