@@ -2,6 +2,7 @@ set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
 
 add_library(raytracing
+    array2d.h
     camera.cpp
     dielectric.cpp
     lambertian.cpp
