@@ -11,7 +11,7 @@ endif()
 # Project
 # -------
 
-project(raytracing LANGUAGES CXX CUDA)
+project(raytracing LANGUAGES CXX)
 
 # Package management
 # ------------------
