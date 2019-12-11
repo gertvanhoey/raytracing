@@ -10,17 +10,21 @@
 #include "camera.h"
 #include "material.h"
 #include "renderer.h"
+#include "array2d.h"
 #include "world.h"
 
-void save_to_ppm(const std::string& filename, const std::vector<Vec3>& pixels, int width, int height) {
+void save_to_ppm(const std::string& filename, const Array2D<Vec3>& pixels, int width, int height) {
     std::ofstream output;
     output.open(filename);
     output << "P3\n" << width << " " << height << "\n255\n";
-    for (const auto& pixel : pixels) {
-        Vec3 encodedPixel(sqrt(pixel[0]), sqrt(pixel[1]), sqrt(pixel[2]));
-        Vec3 scaledPixel(255.99 * encodedPixel.r(), 255.99 * encodedPixel.g(), 255.99 * encodedPixel.b());
+    for (size_t j = 0; j < height; j++) {
+        for (size_t i = 0; i < width; i++) {
+            const Vec3 pixel = pixels(i, j);
+            Vec3 encodedPixel(sqrt(pixel[0]), sqrt(pixel[1]), sqrt(pixel[2]));
+            Vec3 scaledPixel(255.99 * encodedPixel.r(), 255.99 * encodedPixel.g(), 255.99 * encodedPixel.b());
 
-        output << int(scaledPixel.r()) << " " << int(scaledPixel.g()) << " " << int(scaledPixel.b()) << "\n";
+            output << int(scaledPixel.r()) << " " << int(scaledPixel.g()) << " " << int(scaledPixel.b()) << "\n";
+        }
     }
     output.close();
 }
