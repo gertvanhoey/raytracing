@@ -27,7 +27,11 @@ jobs:
       osx_image: xcode10.1
       install:
         - brew install conan
-    
+
+branches:
+  except:
+  - cuda
+  
 script:
   - cmake . -G "Unix Makefiles" -DBUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE=Release
   - cmake --build .
