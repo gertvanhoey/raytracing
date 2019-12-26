@@ -43,8 +43,10 @@ int main() {
     Camera camera(lookFrom, lookAt, Vec3(0.0, 1.0, 0.0), 30.0, double(width) / double(height), aperture, distanceToFocus);
 
     auto pixels = Renderer::render(*world, camera, width, height, numRaysPerPixel);
-
     save_to_ppm("image.ppm", pixels, width, height);
+
+    auto pixelsParallel = Renderer::renderParallel(*world, camera, width, height, numRaysPerPixel, 8);
+    save_to_ppm("image_parallel.ppm", pixelsParallel, width, height);
 
     return 0;
 }

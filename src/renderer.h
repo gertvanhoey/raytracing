@@ -15,6 +15,7 @@ public:
     Renderer() = delete;
 
     static Array2D<Vec3> render(const Object& object, const Camera& camera, size_t width, size_t height, int numRaysPerPixel);
+    static Array2D<Vec3> renderParallel(const Object& object, const Camera& camera, size_t width, size_t height, int numRaysPerPixel, int numThreads);
 
 private:
     static Vec3 color(const Ray& r, const Object& world, int depth, int* numBounces = nullptr);
