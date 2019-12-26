@@ -3,8 +3,7 @@
 #include "random.h"
 #include "material.h"
 #include "camera.h"
-#include <iostream>
-
+#include <thread>
 #include <mutex>
 #include <optional>
 #include <vector>
