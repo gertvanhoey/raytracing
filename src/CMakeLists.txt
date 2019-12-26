@@ -23,6 +23,10 @@ target_include_directories(raytracing PUBLIC
     "${CMAKE_CURRENT_BINARY_DIR}"
 )
 
+find_package (Threads)
+
+target_link_libraries(raytracing ${CMAKE_THREAD_LIBS_INIT})
+
 include(GenerateExportHeader)
 generate_export_header(raytracing)
 
