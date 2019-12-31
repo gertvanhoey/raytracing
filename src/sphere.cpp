@@ -66,3 +66,9 @@ std::optional<HitRecord> Sphere::hit(const Ray& r, double t_min, double t_max) c
     return std::nullopt;
 }
 
+std::optional<AxisAlignedBoundingBox> Sphere::boundingBox() const
+{
+    const double radius = m_pimpl->m_radius;
+    return AxisAlignedBoundingBox(m_pimpl->m_center - Vec3(radius, radius, radius),
+                                  m_pimpl->m_center + Vec3(radius, radius, radius));
+}

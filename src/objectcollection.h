@@ -3,8 +3,10 @@
 
 #include "raytracing_export.h"
 #include "object.h"
+#include "aabb.h"
 #include <vector>
 #include <memory>
+#include <optional>
 
 class RAYTRACING_EXPORT ObjectCollection : public Object
 {
@@ -19,6 +21,7 @@ public:
 
     void add(std::unique_ptr<Object> l);
     std::optional<HitRecord> hit(const Ray& r, double t_min, double t_max) const override;
+    std::optional<AxisAlignedBoundingBox> boundingBox() const override;
 
 private:
     class Impl;

@@ -3,6 +3,7 @@
 
 #include "raytracing_export.h"
 #include "ray.h"
+#include "aabb.h"
 #include <optional>
 
 class Material;
@@ -24,6 +25,7 @@ public:
     Object& operator=(Object&&) = default;
 
     virtual std::optional<HitRecord> hit(const Ray& r, double t_min, double t_max) const = 0;
+    virtual std::optional<AxisAlignedBoundingBox> boundingBox() const = 0;
 };
 
 #endif // OBJECT_H

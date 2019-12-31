@@ -15,6 +15,7 @@ public:
     ~Sphere() override;
 
     std::optional<HitRecord> hit(const Ray& r, double t_min, double t_max) const override;
+    std::optional<AxisAlignedBoundingBox> boundingBox() const override;
 
 private:
     class Impl;

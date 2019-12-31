@@ -11,7 +11,7 @@ static void BM_RenderRandomScene(benchmark::State& state) {
     const size_t height = 120;
     const int numRaysPerPixel = 100;
 
-    auto world = World::randomScene();
+    auto world = World::randomSceneHierarchy();
 
     const Vec3 lookFrom(12.0, 2.0, 4.0);
     const Vec3 lookAt(0.0, 0.0, 0.0);

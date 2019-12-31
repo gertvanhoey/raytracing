@@ -33,3 +33,25 @@ std::optional<HitRecord> ObjectCollection::hit(const Ray& r, double t_min, doubl
     }
     return result;
 }
+
+std::optional<AxisAlignedBoundingBox> ObjectCollection::boundingBox() const
+{
+    if (m_pimpl->m_objects.empty()) {
+        return std::nullopt;
+    }
+
+    auto result = m_pimpl->m_objects[0]->boundingBox();
+    if (result) {
+        for (size_t i = 1; i < m_pimpl->m_objects.size(); i++) {
+            auto box = m_pimpl->m_objects[i]->boundingBox();
+            if (box) {
+                result = AxisAlignedBoundingBox::surroundingBox(*result, *box);
+            }
+            else {
+                result = std::nullopt;
+                break;
+            }
+        }
+    }
+    return result;
+}
