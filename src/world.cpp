@@ -15,14 +15,13 @@ std::unique_ptr<Object> World::randomSceneCollection()
     for (auto& object : objects) {
         world->add(std::move(object));
     }
-    return std::move(world);
+    return world;
 }
 
 std::unique_ptr<Object> World::randomSceneHierarchy()
 {
     auto objects = randomSceneVector();
-    auto world = std::make_unique<BoundingVolumeHierarchyNode>(objects);
-    return std::move(world);
+    return std::make_unique<BoundingVolumeHierarchyNode>(objects);
 }
 
 std::vector<std::unique_ptr<Object>> World::randomSceneVector()
@@ -63,5 +62,5 @@ std::vector<std::unique_ptr<Object>> World::randomSceneVector()
     objects.push_back(std::make_unique<Sphere>(Vec3(-4.0, 1.0, 0.0), 1.0, diffuse));
     objects.push_back(std::make_unique<Sphere>(Vec3(4.0, 1.0, 0.0), 1.0, metal));
 
-    return std::move(objects);
+    return objects;
 }
