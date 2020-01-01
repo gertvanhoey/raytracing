@@ -1,7 +1,6 @@
 #include "bvhnode.h"
 #include "random.h"
 #include "aabb.h"
-#include <memory>
 #include <algorithm>
 #include <iostream>
 
@@ -78,8 +77,8 @@ void BoundingVolumeHierarchyNode::initialize(std::vector<std::unique_ptr<Object>
 {
     int axis = int(3.0 * random_double());
 
-    auto fromIterator = objects.begin() + from;
-    auto toIterator = objects.begin() + to;
+    auto fromIterator = objects.begin() + static_cast<long>(from);
+    auto toIterator = objects.begin() + static_cast<long>(to);
     if (axis == 0) {
         std::sort(fromIterator, toIterator, [](std::unique_ptr<Object>& obj1, std::unique_ptr<Object>& obj2) {
             auto box1 = obj1->boundingBox();

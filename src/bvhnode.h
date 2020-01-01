@@ -4,6 +4,7 @@
 #include "raytracing_export.h"
 #include "object.h"
 #include <vector>
+#include <memory>
 
 class RAYTRACING_EXPORT BoundingVolumeHierarchyNode : public Object
 {
