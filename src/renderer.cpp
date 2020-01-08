@@ -7,6 +7,7 @@
 #include <mutex>
 #include <optional>
 #include <vector>
+#include <algorithm>
 
 class WorkList
 {
@@ -27,22 +28,72 @@ private:
     std::mutex m_mutex;
 };
 
+class Renderer::Impl {
+public:
+    Impl(size_t width, size_t height);
+
+    size_t m_width;
+    size_t m_height;
+    int m_numRaysPerPixel;
+    Array2D<Vec3> m_pixelsCumulative;
+    Array2D<Vec3> m_pixels;
+};
+
+Renderer::Impl::Impl(size_t width, size_t height) :
+    m_width(width),
+    m_height(height),
+    m_numRaysPerPixel(0),
+    m_pixelsCumulative(width, height, Vec3(0.0, 0.0, 0.0)),
+    m_pixels(width, height, Vec3(0.0, 0.0, 0.0))
+{
+}
+
+Renderer::Renderer(size_t width, size_t height) :
+    m_pimpl(new Impl(width, height))
+{
+}
+
+Renderer::~Renderer()
+{
+    delete m_pimpl;
+}
+
+void Renderer::setSize(size_t width, size_t height)
+{
+    m_pimpl->m_width = width;
+    m_pimpl->m_height = height;
+    m_pimpl->m_numRaysPerPixel = 0;
+    m_pimpl->m_pixelsCumulative = Array2D<Vec3>(width, height, Vec3(0.0, 0.0, 0.0));
+    m_pimpl->m_pixels = Array2D<Vec3>(width, height, Vec3(0.0, 0.0, 0.0));
+}
+
+void Renderer::reset()
+{
+    setSize(m_pimpl->m_width, m_pimpl->m_height);
+}
+
+Array2D<Vec3> Renderer::renderIncremental(const Object& object, const Camera& camera, int numRaysPerPixel)
+{
+    unsigned int numThreads = std::thread::hardware_concurrency();
+    numThreads = std::max(numThreads, 2u);
+    auto increment = renderParallel(object, camera, m_pimpl->m_width, m_pimpl->m_height, numRaysPerPixel, numThreads);
+    m_pimpl->m_numRaysPerPixel += numRaysPerPixel;
+    for (size_t row = 0; row < m_pimpl->m_height; row++) {
+        for (size_t col = 0; col < m_pimpl->m_width; col++) {
+
+            m_pimpl->m_pixelsCumulative(col, row) += (increment(col, row) * numRaysPerPixel);
+            m_pimpl->m_pixels(col, row) = m_pimpl->m_pixelsCumulative(col, row) / m_pimpl->m_numRaysPerPixel;
+        }
+    }
+
+    return m_pimpl->m_pixels;
+}
+
 Array2D<Vec3> Renderer::render(const Object& object, const Camera& camera, size_t width, size_t height, int numRaysPerPixel)
 {
     Array2D<Vec3> pixels(width, height);
     for (size_t j = 0; j < height; j++) {
-        for (size_t i = 0; i < width; i++) {
-            Vec3 pixel(0.0, 0.0, 0.0);
-            for (int s = 0; s < numRaysPerPixel; s++) {
-                const double u = (double(i) + random_double()) / double(width);
-                const double v = (double(height - 1 - j) + random_double()) / double(height);
-                const Ray r = camera.get_ray(u, v);
-                int numBounces;
-                pixel += color(r, object, 0, &numBounces);
-            }
-            pixel /= double(numRaysPerPixel);
-            pixels(i, j) = pixel;
-        }
+        renderLine(object, camera, width, height, j, numRaysPerPixel, pixels);
     }
     return pixels;
 }
@@ -61,18 +112,7 @@ Array2D<Vec3> Renderer::renderParallel(const Object& object, const Camera& camer
             auto workItem = workList.getTask();
             while (workItem) {
                 size_t j = *workItem;
-                for (size_t i = 0; i < width; i++) {
-                    Vec3 pixel(0.0, 0.0, 0.0);
-                    for (int s = 0; s < numRaysPerPixel; s++) {
-                        const double u = (double(i) + random_double()) / double(width);
-                        const double v = (double(height - 1 - j) + random_double()) / double(height);
-                        const Ray r = camera.get_ray(u, v);
-                        int numBounces;
-                        pixel += color(r, object, 0, &numBounces);
-                    }
-                    pixel /= double(numRaysPerPixel);
-                    pixels(i, j) = pixel;
-                }
+                renderLine(object, camera, width, height, j, numRaysPerPixel, pixels);
                 workItem = workList.getTask();
             }
         });
@@ -81,6 +121,22 @@ Array2D<Vec3> Renderer::renderParallel(const Object& object, const Camera& camer
         entry.join();
     }
     return pixels;
+}
+
+void Renderer::renderLine(const Object& object, const Camera& camera, size_t width, size_t height, size_t line, int numRaysPerPixel, Array2D<Vec3>& pixels)
+{
+    for (size_t i = 0; i < width; i++) {
+        Vec3 pixel(0.0, 0.0, 0.0);
+        for (int s = 0; s < numRaysPerPixel; s++) {
+            const double u = (double(i) + random_double()) / double(width);
+            const double v = (double(height - 1 - line) + random_double()) / double(height);
+            const Ray r = camera.get_ray(u, v);
+            int numBounces;
+            pixel += color(r, object, 0, &numBounces);
+        }
+        pixel /= double(numRaysPerPixel);
+        pixels(i, line) = pixel;
+    }
 }
 
 Vec3 Renderer::color(const Ray& r, const Object& world, int depth, int* numBounces)

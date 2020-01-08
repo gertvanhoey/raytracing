@@ -43,3 +43,8 @@ add_executable(example
     main.cpp
 )
 target_link_libraries(example raytracing)
+
+find_package(Qt5 COMPONENTS Widgets Qml Quick REQUIRED)
+
+add_executable(qtrenderer qtmain.cpp renderer_qt.cpp imageitem.cpp qml.qrc)
+target_link_libraries(qtrenderer raytracing Qt5::Widgets Qt5::Qml Qt5::Quick)

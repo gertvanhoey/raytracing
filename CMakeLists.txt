@@ -13,6 +13,12 @@ endif()
 
 project(raytracing LANGUAGES CXX)
 
+# Qt
+# --
+
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+
 # Package management
 # ------------------
 
