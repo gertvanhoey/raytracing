@@ -9,7 +9,7 @@ configuration:
 environment:
   VS_VERSION: Visual Studio 15 2017 Win64
   MSVC_VERSION: 15
-  QTDIR: C:\Qt\5.12.3\msvc2017_64
+  QTDIR: C:\Qt\5.12\msvc2017_64
 
 install:
   - set PATH=%PATH%;%PYTHON%/Scripts/;%QTDIR%
