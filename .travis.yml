@@ -27,7 +27,31 @@ jobs:
       osx_image: xcode10.1
       install:
         - pip3 install conan
-    
+
+cache:
+  directories:
+    - /usr/local/opt/qt
+    - /opt/qt512
+
+install:
+  # Install Qt5.12
+  - |
+    # Install Qt
+    if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
+      if [[ ! -f /opt/qt512/bin/qmake ]]; then
+        travis_retry sudo apt-get -qq install qt512tools
+      fi
+      source /opt/qt512/bin/qt512-env.sh
+    else
+      if [[ ! -f /usr/local/opt/qt/bin/qmake ]]; then
+        # Qt 5.12.3
+        brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/65a45a9e/Formula/qt.rb
+      fi
+      export QTDIR="/usr/local/opt/qt"
+      export PATH="$QTDIR/bin:$PATH"
+    fi
+
+
 script:
   - cmake . -G "Unix Makefiles" -DBUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE=Release
   - cmake --build .
