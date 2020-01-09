@@ -19,6 +19,7 @@ jobs:
         - sudo add-apt-repository -y ppa:beineri/opt-qt-5.12.3-xenial
         - sudo apt-get update
         - sudo apt-get install qt512-meta-full mesa-common-dev
+        - source /opt/qt512/bin/qt512-env.sh
       install:
         - pip install conan
         - conan user
