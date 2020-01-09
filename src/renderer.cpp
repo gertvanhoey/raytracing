@@ -76,7 +76,7 @@ Array2D<Vec3> Renderer::renderIncremental(const Object& object, const Camera& ca
 {
     unsigned int numThreads = std::thread::hardware_concurrency();
     numThreads = std::max(numThreads, 2u);
-    auto increment = renderParallel(object, camera, m_pimpl->m_width, m_pimpl->m_height, numRaysPerPixel, numThreads);
+    auto increment = renderParallel(object, camera, m_pimpl->m_width, m_pimpl->m_height, numRaysPerPixel, int(numThreads));
     m_pimpl->m_numRaysPerPixel += numRaysPerPixel;
     for (size_t row = 0; row < m_pimpl->m_height; row++) {
         for (size_t col = 0; col < m_pimpl->m_width; col++) {
