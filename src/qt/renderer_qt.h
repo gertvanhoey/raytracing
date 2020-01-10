@@ -1,6 +1,7 @@
 #ifndef RENDERER_QT_H
 #define RENDERER_QT_H
 
+#include "raytracing_qt_export.h"
 #include <QObject>
 #include <QSize>
 #include <QImage>
@@ -12,7 +13,7 @@
 
 class QThread;
 
-class RayTracer : public QObject
+class RAYTRACING_QT_EXPORT RayTracer : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QSize size READ size WRITE setSize NOTIFY sizeChanged)
@@ -59,7 +60,7 @@ private:
 
 // https://wiki.qt.io/QThreads_general_usage
 
-class RayTracerWorker : public QObject
+class RAYTRACING_QT_EXPORT RayTracerWorker : public QObject
 {
     Q_OBJECT
 public:

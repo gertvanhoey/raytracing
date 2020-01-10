@@ -30,9 +30,9 @@ void save_to_ppm(const std::string& filename, const Array2D<Vec3>& pixels, int w
 }
 
 int main() {
-    const size_t width = 160;
-    const size_t height = 120;
-    const int numRaysPerPixel = 100;
+    const size_t width = 640;
+    const size_t height = 480;
+    const int numRaysPerPixel = 50;
 
     auto world = World::randomSceneHierarchy();
 
@@ -41,9 +41,6 @@ int main() {
     const double distanceToFocus = (lookFrom - lookAt).length();
     const double aperture = 0.05;
     Camera camera(lookFrom, lookAt, Vec3(0.0, 1.0, 0.0), 30.0, double(width) / double(height), aperture, distanceToFocus);
-
-    auto pixels = Renderer::render(*world, camera, width, height, numRaysPerPixel);
-    save_to_ppm("image.ppm", pixels, width, height);
 
     auto pixelsParallel = Renderer::renderParallel(*world, camera, width, height, numRaysPerPixel, 8);
     save_to_ppm("image_parallel.ppm", pixelsParallel, width, height);

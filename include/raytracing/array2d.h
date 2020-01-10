@@ -25,6 +25,8 @@ public:
     T& operator()(size_t index1, size_t index2);
     const T& operator()(size_t index1, size_t index2) const;
 
+    T* data() const;
+
 private:
     size_t m_size1 {0};
     size_t m_size2 {0};
@@ -69,6 +71,12 @@ template <class T>
 const T& Array2D<T>::operator()(size_t index1, size_t index2) const
 {
     return m_data[index1 * m_size2 + index2];
+}
+
+template<class T>
+T* Array2D<T>::data() const
+{
+    return m_data.data();
 }
 
 #endif // ARRAY2D_H

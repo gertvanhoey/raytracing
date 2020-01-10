@@ -1,7 +1,6 @@
 #include "renderer_qt.h"
 #include "world.h"
 #include <QThread>
-#include <iostream>
 #include <fstream>
 
 RayTracer::RayTracer(QObject* parent) :
@@ -72,7 +71,7 @@ void RayTracer::stop()
 
 void RayTracer::onImageAvailable(QImage image, int numRaysPerPixel)
 {
-    m_image = image;
+    m_image = std::move(image);
     m_numRaysPerPixel = numRaysPerPixel;
     emit imageChanged();
     emit numRaysPerPixelChanged();
@@ -83,7 +82,7 @@ void RayTracer::createCamera()
     const Vec3 lookFrom(12.0, 2.0, 4.0);
     const Vec3 lookAt(0.0, 0.0, 0.0);
     const double distanceToFocus = (lookFrom - lookAt).length();
-    const double aperture = 0.05;
+    const double aperture = 0.0;
     m_camera = std::make_unique<Camera>(lookFrom, lookAt, Vec3(0.0, 1.0, 0.0), 30.0,
                                         double(m_size.width()) / double(m_size.height()),
                                         aperture, distanceToFocus);
@@ -106,9 +105,6 @@ void RayTracerWorker::process()
     if (w * h > 0) {
         while (m_numRaysPerPixel < m_maxNumRaysPerPixel) {
             auto pixels = m_renderer.renderIncremental(*m_world, *m_camera, 1);
-            if (m_numRaysPerPixel == 0) {
-                save_to_ppm("aha.ppm", pixels, w, h);
-            }
             std::vector<unsigned char> imageData(w * h * 4, 255u);
             for (size_t row = 0; row < h; row++) {
                 for (size_t col = 0; col < w; col++) {
@@ -121,17 +117,12 @@ void RayTracerWorker::process()
                     imageData[4 * w * row + 4 * col + 0] = b;
                     imageData[4 * w * row + 4 * col + 1] = g;
                     imageData[4 * w * row + 4 * col + 2] = r;
-                    //std::cout << R << "\t" << G << "\t" << B << std::endl;
                 }
             }
-            const unsigned char* ptr = imageData.data();
-            QImage image(const_cast<const uchar *>(imageData.data()), w, h, QImage::Format_RGB32);
+            QImage image(const_cast<const uchar *>(imageData.data()), int(w), int(h), QImage::Format_RGB32);
             image.bits();
-            //QImage image("image.png");
-            //image.save("test.png");
             m_numRaysPerPixel++;
             Q_EMIT imageAvailable(image, m_numRaysPerPixel);
-            //Q_EMIT imageAvailable(QImage(), m_numRaysPerPixel);
         }
     }
     Q_EMIT finished();

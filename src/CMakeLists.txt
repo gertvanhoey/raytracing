@@ -1,50 +1,6 @@
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
 
-add_library(raytracing
-    aabb.cpp
-    bvhnode.cpp
-    array2d.h
-    camera.cpp
-    dielectric.cpp
-    lambertian.cpp
-    material.cpp
-    metal.cpp
-    object.h
-    objectcollection.cpp
-    random.h
-    ray.h
-    renderer.cpp
-    sphere.cpp
-    vec3.h
-    world.cpp
-)
-
-target_include_directories(raytracing PUBLIC
-    "${CMAKE_CURRENT_SOURCE_DIR}"
-    "${CMAKE_CURRENT_BINARY_DIR}"
-)
-
-find_package (Threads)
-
-target_link_libraries(raytracing ${CMAKE_THREAD_LIBS_INIT})
-
-include(GenerateExportHeader)
-generate_export_header(raytracing)
-
-if (MSVC)
-  target_compile_options(raytracing PRIVATE /W4 /WX)
-else()
-  target_compile_options(raytracing PRIVATE -Wall -Wextra -pedantic -Wconversion -Wsign-conversion -Werror)
-endif()
-
-
-add_executable(example
-    main.cpp
-)
-target_link_libraries(example raytracing)
-
-find_package(Qt5 COMPONENTS Widgets Qml Quick REQUIRED)
-
-add_executable(qtrenderer qtmain.cpp renderer_qt.cpp imageitem.cpp qml.qrc)
-target_link_libraries(qtrenderer raytracing Qt5::Widgets Qt5::Qml Qt5::Quick)
+add_subdirectory(app)
+add_subdirectory(lib)
+add_subdirectory(qt)
