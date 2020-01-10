@@ -21,7 +21,7 @@ void ImageItem::paint(QPainter* painter)
 {
     if (!m_image.isNull()) {
         QRectF rect = boundingRect();
-        QImage scaledImage = m_image.scaledToHeight(rect.height());
+        QImage scaledImage = m_image.scaledToHeight(int(rect.height()));
         QPointF center = rect.center() - scaledImage.rect().center();
 
         if (center.x() < 0.0) {
