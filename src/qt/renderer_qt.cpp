@@ -94,23 +94,20 @@ RayTracerWorker::RayTracerWorker(Object* world, Camera* camera, QSize size, int 
     m_size(size),
     m_numRaysPerPixel(0),
     m_maxNumRaysPerPixel(maxNumRaysPerPixel),
-    m_renderer(size.width(), size.height())
+    m_renderer(size_t(size.width()), size_t(size.height()))
 {
 }
 
 void RayTracerWorker::process()
 {
-    const size_t w = m_size.width();
-    const size_t h = m_size.height();
+    const size_t w = size_t(m_size.width());
+    const size_t h = size_t(m_size.height());
     if (w * h > 0) {
         while (m_numRaysPerPixel < m_maxNumRaysPerPixel) {
             auto pixels = m_renderer.renderIncremental(*m_world, *m_camera, 1);
             std::vector<unsigned char> imageData(w * h * 4, 255u);
             for (size_t row = 0; row < h; row++) {
                 for (size_t col = 0; col < w; col++) {
-                    const auto R = pixels(col, row).r();
-                    const auto G = pixels(col, row).g();
-                    const auto B = pixels(col, row).b();
                     const auto r = (unsigned char)(255.99 * sqrt(pixels(col, row).r()));
                     const auto g = (unsigned char)(255.99 * sqrt(pixels(col, row).g()));
                     const auto b = (unsigned char)(255.99 * sqrt(pixels(col, row).b()));
@@ -133,8 +130,8 @@ void RayTracerWorker::save_to_ppm(const std::string &filename, const Array2D<Vec
     std::ofstream output;
     output.open(filename);
     output << "P3\n" << width << " " << height << "\n255\n";
-    for (size_t j = 0; j < height; j++) {
-        for (size_t i = 0; i < width; i++) {
+    for (size_t j = 0; j < size_t(height); j++) {
+        for (size_t i = 0; i < size_t(width); i++) {
             const Vec3 pixel = pixels(i, j);
             Vec3 encodedPixel(sqrt(pixel[0]), sqrt(pixel[1]), sqrt(pixel[2]));
             Vec3 scaledPixel(255.99 * encodedPixel.r(), 255.99 * encodedPixel.g(), 255.99 * encodedPixel.b());
