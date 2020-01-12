@@ -14,7 +14,7 @@ jobs:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
       cache:
         directories:
-          - /opt/qt512      
+          - /opt/qt512
       before_install:
         - export CC
         - export CXX
@@ -35,8 +35,14 @@ jobs:
     - os: osx
       language: c++
       osx_image: xcode10.1
+      cache:
+        directories:
+          - /usr/local/opt/qt
       install:
-        - brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/65a45a9e/Formula/qt.rb
+        - |
+          if [[ ! -f /usr/local/opt/qt/bin/qmake ]]; then
+            brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/65a45a9e/Formula/qt.rb
+          fi
         - export QTDIR="/usr/local/opt/qt"
         - export PATH="$QTDIR/bin:$PATH"
         - pip3 install conan
