@@ -36,14 +36,8 @@ jobs:
     - os: osx
       language: c++
       osx_image: xcode10.1
-      cache:
-        directories:
-          - /usr/local/opt/qt
       install:
-        - |
-          if [[ ! -f /usr/local/opt/qt/bin/qmake ]]; then
-            brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/65a45a9e/Formula/qt.rb
-          fi
+        - brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/65a45a9e/Formula/qt.rb
         - export QTDIR="/usr/local/opt/qt"
         - export PATH="$QTDIR/bin:$PATH"
         - pip3 install conan
