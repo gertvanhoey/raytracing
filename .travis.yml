@@ -9,8 +9,8 @@ jobs:
     addons:
       apt:
         sources:
-        - ubuntu-toolchain-r-test
-        - ppa:beineri/opt-qt-5.12.3-xenial
+        - sourceline: 'ubuntu-toolchain-r-test'
+        - sourceline: 'ppa:beineri/opt-qt-5.12.3-xenial'
         packages:
         - g++-7
         - qt512-meta-full
