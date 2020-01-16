@@ -9,7 +9,7 @@ jobs:
     addons:
       apt:
         sources:
-        - sourceline: 'ubuntu-toolchain-r-test'
+        - sourceline: 'ppa:ubuntu-toolchain-r/test'
         - sourceline: 'ppa:beineri/opt-qt-5.12.3-xenial'
         packages:
         - g++-7
