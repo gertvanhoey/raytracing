@@ -24,7 +24,7 @@ jobs:
     - eval "${MATRIX_EVAL}"
     install:
     - source /opt/qt512/bin/qt512-env.sh
-    - pip3 install --quiet conan
+    - pip install conan
     - conan user
     - conan profile new default --detect --force
     - conan profile update settings.compiler.libcxx=libstdc++11 default
