@@ -35,7 +35,7 @@ if (CONAN)
 
     conan_cmake_run(CONANFILE conanfile.txt
             CONAN_COMMAND ${CONAN}
-            BASIC_SETUP CMAKE_TARGETS
+            BASIC_SETUP CMAKE_TARGETS KEEP_RPATHS
             BUILD missing)
 endif ()
 
@@ -44,9 +44,6 @@ endif ()
 
 set(CMAKE_CXX_STANDARD 17)
 enable_testing()
-
-# Make sure dynamic libraries are found at runtime on Mac
-set(CMAKE_MACOSX_RPATH OFF)
 
 add_subdirectory(src)
 
