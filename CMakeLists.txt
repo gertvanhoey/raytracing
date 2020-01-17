@@ -13,6 +13,14 @@ endif()
 
 project(raytracing LANGUAGES CXX)
 
+# CMake modules
+# -------------
+
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+if (NOT WIN32)
+    include(CodeCoverage)
+endif()
+
 # Qt
 # --
 
