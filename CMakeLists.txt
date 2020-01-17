@@ -21,6 +21,13 @@ if (NOT WIN32)
     include(CodeCoverage)
 endif()
 
+setup_target_for_coverage_gcovr_html(
+    NAME coverage
+    EXECUTABLE ctest -j ${PROCESSOR_COUNT}
+    DEPENDENCIES test_raytracing
+    BASE_DIRECTORY ${CMAKE_SOURCE_DIR}/coverage
+)
+
 # Qt
 # --
 
