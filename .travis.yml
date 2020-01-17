@@ -18,6 +18,7 @@ jobs:
         - qt512-meta-full
         - mesa-common-dev
         - libglu1-mesa-dev
+        - gcovr
         update: true
     before_install:
     - export CC

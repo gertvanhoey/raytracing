@@ -19,14 +19,14 @@ project(raytracing LANGUAGES CXX)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 if (NOT WIN32)
     include(CodeCoverage)
+    setup_target_for_coverage_gcovr_html(
+        NAME coverage
+        EXECUTABLE ctest -j ${PROCESSOR_COUNT}
+        DEPENDENCIES test_raytracing
+        BASE_DIRECTORY ${CMAKE_SOURCE_DIR}/coverage
+    )
 endif()
 
-setup_target_for_coverage_gcovr_html(
-    NAME coverage
-    EXECUTABLE ctest -j ${PROCESSOR_COUNT}
-    DEPENDENCIES test_raytracing
-    BASE_DIRECTORY ${CMAKE_SOURCE_DIR}/coverage
-)
 
 # Qt
 # --
