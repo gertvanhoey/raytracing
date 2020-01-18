@@ -34,6 +34,11 @@ jobs:
   - os: osx
     language: c++
     osx_image: xcode10.1
+    addons:
+      homebrew:
+        packages:
+        - gcovr
+        update: true
     install:
     - brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/65a45a9e/Formula/qt.rb
     - export QTDIR="/usr/local/opt/qt"
