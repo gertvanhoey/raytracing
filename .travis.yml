@@ -18,7 +18,7 @@ jobs:
         - qt512-meta-full
         - mesa-common-dev
         - libglu1-mesa-dev
-        - gcovr
+        - lcov
         update: true
     before_install:
     - export CC
@@ -37,7 +37,7 @@ jobs:
     addons:
       homebrew:
         packages:
-        - gcovr
+        - lcov
         update: true
     install:
     - brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/65a45a9e/Formula/qt.rb
@@ -49,3 +49,4 @@ script:
 - cmake . -G "Unix Makefiles" -DBUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE=Release
 - cmake --build .
 - ctest .
+- cmake --build . --target coverage

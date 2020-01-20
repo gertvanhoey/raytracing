@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 3.9)
 
 # Avoid warning about overriding '/W3' with '/W4' when compiling with MSVC
 if (POLICY CMP0092)
-cmake_policy(SET CMP0092 NEW)
+    cmake_policy(SET CMP0092 NEW)
 endif()
 
 # Project
@@ -17,16 +17,23 @@ project(raytracing LANGUAGES CXX)
 # -------------
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
-if (NOT WIN32)
-    include(CodeCoverage)
-    setup_target_for_coverage_gcovr_html(
-        NAME coverage
-        EXECUTABLE ctest -j ${PROCESSOR_COUNT}
-        DEPENDENCIES test_raytracing
-        BASE_DIRECTORY ${CMAKE_SOURCE_DIR}/coverage
-    )
-endif()
 
+if(NOT WIN32)
+    find_program(LCOV lcov)
+    if(LCOV)
+        include(CodeCoverage)
+        append_coverage_compiler_flags()
+        find_program(CTEST ctest)
+        setup_target_for_coverage_lcov(
+            NAME coverage
+            EXECUTABLE ${CTEST} -j ${PROCESSOR_COUNT}
+            DEPENDENCIES test_raytracing
+            EXCLUDE "*/test_*.cpp"
+        )
+    else()
+        message(WARNING "Install lcov for being able to measure code coverage")
+    endif()
+endif()
 
 # Qt
 # --
@@ -62,7 +69,7 @@ enable_testing()
 
 add_subdirectory(src)
 
-if (NOT CONAN)
+if(NOT CONAN)
     message(WARNING "Building the benchmark and unit tests requires Conan package manager: please visit https://conan.io and install")
 else()
     add_subdirectory(test)
