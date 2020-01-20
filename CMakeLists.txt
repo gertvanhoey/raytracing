@@ -28,7 +28,7 @@ if(NOT WIN32)
             NAME coverage
             EXECUTABLE ${CTEST} -j ${PROCESSOR_COUNT}
             DEPENDENCIES test_raytracing
-            EXCLUDE "*/test_*.cpp"
+            EXCLUDE "*/test_*.cpp" "*/moc_*.cpp" "*/qrc_*.cpp"
         )
     else()
         message(WARNING "Install lcov for being able to measure code coverage")
