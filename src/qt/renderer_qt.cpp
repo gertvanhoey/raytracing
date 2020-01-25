@@ -128,7 +128,7 @@ void RayTracerWorker::process()
     Q_EMIT finished();
 }
 
-void RayTracerWorker::save_to_ppm(const std::string& filename, const Array2D<Vec3>& pixels, int width, int height)
+void RayTracerWorker::saveToPPM(const std::string& filename, const Array2D<Vec3>& pixels, int width, int height)
 {
     std::ofstream output;
     output.open(filename);

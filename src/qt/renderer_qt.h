@@ -76,7 +76,7 @@ signals:
     void finished();
 
 private:
-    static void save_to_ppm(const std::string& filename, const Array2D<Vec3>& pixels, int width, int height);
+    static void saveToPPM(const std::string& filename, const Array2D<Vec3>& pixels, int width, int height);
 
 private:
     Object* m_world;
