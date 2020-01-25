@@ -6,7 +6,6 @@
 template <class T>
 class Array2D
 {
-
 public:
     Array2D() = default;
     Array2D(size_t size1, size_t size2);
@@ -34,18 +33,13 @@ private:
 };
 
 template <class T>
-Array2D<T>::Array2D(size_t size1, size_t size2) :
-    m_size1(size1),
-    m_size2(size2),
-    m_data(m_size1 * m_size2)
+Array2D<T>::Array2D(size_t size1, size_t size2) : m_size1(size1), m_size2(size2), m_data(m_size1 * m_size2)
 {
 }
 
 template <class T>
 Array2D<T>::Array2D(size_t size1, size_t size2, T initVal) :
-    m_size1(size1),
-    m_size2(size2),
-    m_data(size1 * size2, initVal)
+    m_size1(size1), m_size2(size2), m_data(size1 * size2, initVal)
 {
 }
 
@@ -73,10 +67,10 @@ const T& Array2D<T>::operator()(size_t index1, size_t index2) const
     return m_data[index1 * m_size2 + index2];
 }
 
-template<class T>
+template <class T>
 T* Array2D<T>::data() const
 {
     return m_data.data();
 }
 
-#endif // ARRAY2D_H
+#endif  // ARRAY2D_H

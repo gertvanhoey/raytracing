@@ -1,9 +1,10 @@
 #ifndef SPHERE_H
 #define SPHERE_H
 
-#include "raytracing_export.h"
-#include "object.h"
 #include <memory>
+
+#include "object.h"
+#include "raytracing_export.h"
 
 class Material;
 
@@ -22,4 +23,4 @@ private:
     Impl* m_pimpl;
 };
 
-#endif // SPHERE_H
+#endif  // SPHERE_H

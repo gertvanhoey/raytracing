@@ -1,9 +1,10 @@
 #ifndef DIELECTRIC_H
 #define DIELECTRIC_H
 
-#include "raytracing_export.h"
-#include "material.h"
 #include <optional>
+
+#include "material.h"
+#include "raytracing_export.h"
 
 class RAYTRACING_EXPORT Dielectric : public Material
 {
@@ -15,8 +16,7 @@ public:
     static double schlick(double cosine, double refractiveIndex);
 
 private:
-
     double m_refractiveIndex;
 };
 
-#endif // DIELECTRIC_H
+#endif  // DIELECTRIC_H

@@ -1,15 +1,16 @@
 #ifndef RENDERER_QT_H
 #define RENDERER_QT_H
 
-#include "raytracing_qt_export.h"
+#include <QImage>
 #include <QObject>
 #include <QSize>
-#include <QImage>
-#include "renderer.h"
-#include "object.h"
-#include "camera.h"
 #include <memory>
 #include <string>
+
+#include "camera.h"
+#include "object.h"
+#include "raytracing_qt_export.h"
+#include "renderer.h"
 
 class QThread;
 
@@ -17,7 +18,8 @@ class RAYTRACING_QT_EXPORT RayTracer : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QSize size READ size WRITE setSize NOTIFY sizeChanged)
-    Q_PROPERTY(int maxNumRaysPerPixel READ maxNumRaysPerPixel WRITE setMaxNumRaysPerPixel NOTIFY maxNumRaysPerPixelChanged)
+    Q_PROPERTY(
+        int maxNumRaysPerPixel READ maxNumRaysPerPixel WRITE setMaxNumRaysPerPixel NOTIFY maxNumRaysPerPixelChanged)
     Q_PROPERTY(QImage image READ image NOTIFY imageChanged)
     Q_PROPERTY(int numRaysPerPixel READ numRaysPerPixel NOTIFY numRaysPerPixelChanged)
 
@@ -85,4 +87,4 @@ private:
     Renderer m_renderer;
 };
 
-#endif // RENDERER_QT_H
+#endif  // RENDERER_QT_H

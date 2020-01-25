@@ -1,11 +1,13 @@
 #include "material.h"
 
-Vec3 Material::reflect(const Vec3& v, const Vec3& n) {
+Vec3 Material::reflect(const Vec3& v, const Vec3& n)
+{
     return v - 2.0 * dot(v, n) * n;
 }
 
-std::optional<Vec3> Material::refract(const Vec3& v, const Vec3& n, double ni_over_nt) {
-    Vec3 uv = unit_vector(v);
+std::optional<Vec3> Material::refract(const Vec3& v, const Vec3& n, double ni_over_nt)
+{
+    Vec3 uv = unitVector(v);
     double dt = dot(uv, n);
     double discriminant = 1.0 - ni_over_nt * ni_over_nt * (1.0 - dt * dt);
     std::optional<Vec3> result = std::nullopt;
@@ -14,4 +16,3 @@ std::optional<Vec3> Material::refract(const Vec3& v, const Vec3& n, double ni_ov
     }
     return result;
 }
-

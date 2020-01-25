@@ -1,9 +1,6 @@
 #include "imageitem.h"
 
-ImageItem::ImageItem(QQuickItem* parent) :
-    QQuickPaintedItem(parent)
-{
-}
+ImageItem::ImageItem(QQuickItem* parent) : QQuickPaintedItem(parent) {}
 
 QImage ImageItem::image() const
 {

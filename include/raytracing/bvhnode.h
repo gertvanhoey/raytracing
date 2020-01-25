@@ -1,10 +1,11 @@
 #ifndef BVHNODE_H
 #define BVHNODE_H
 
-#include "raytracing_export.h"
-#include "object.h"
-#include <vector>
 #include <memory>
+#include <vector>
+
+#include "object.h"
+#include "raytracing_export.h"
 
 class RAYTRACING_EXPORT BoundingVolumeHierarchyNode : public Object
 {
@@ -22,15 +23,13 @@ public:
     std::optional<AxisAlignedBoundingBox> boundingBox() const override;
 
 private:
-    BoundingVolumeHierarchyNode(std::vector<std::unique_ptr<Object>>& objects,
-                                size_t from, size_t to);
+    BoundingVolumeHierarchyNode(std::vector<std::unique_ptr<Object>>& objects, size_t from, size_t to);
 
-    void initialize(std::vector<std::unique_ptr<Object>>& objects,
-                    size_t from, size_t to);
+    void initialize(std::vector<std::unique_ptr<Object>>& objects, size_t from, size_t to);
 
 private:
     class Impl;
     Impl* m_pimpl;
 };
 
-#endif // BVHNODE_H
+#endif  // BVHNODE_H

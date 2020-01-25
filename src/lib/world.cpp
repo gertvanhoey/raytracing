@@ -1,12 +1,14 @@
 #include "world.h"
-#include "objectcollection.h"
-#include "sphere.h"
+
+#include <vector>
+
+#include "bvhnode.h"
+#include "dielectric.h"
 #include "lambertian.h"
 #include "metal.h"
-#include "dielectric.h"
+#include "objectcollection.h"
 #include "random.h"
-#include "bvhnode.h"
-#include <vector>
+#include "sphere.h"
 
 std::unique_ptr<Object> World::randomSceneCollection()
 {
@@ -32,24 +34,23 @@ std::vector<std::unique_ptr<Object>> World::randomSceneVector()
     auto glass = std::make_shared<Dielectric>(1.5);
     for (int a = -11; a < 11; a++) {
         for (int b = -11; b < 11; b++) {
-            const double chooseMat = random_double();
-            Vec3 center(a + 0.9 * random_double(), 0.2, b + 0.9 * random_double());
+            const double chooseMat = randomDouble();
+            Vec3 center(a + 0.9 * randomDouble(), 0.2, b + 0.9 * randomDouble());
             if ((center - Vec3(4.0, 0.2, 0.0)).length() > 0.9) {
-                if (chooseMat < 0.8) { // diffuse
-                    const Vec3 albedo(random_double() * random_double(),
-                                      random_double() * random_double(),
-                                      random_double() * random_double());
+                if (chooseMat < 0.8) {  // diffuse
+                    const Vec3 albedo(randomDouble() * randomDouble(),
+                                      randomDouble() * randomDouble(),
+                                      randomDouble() * randomDouble());
                     auto material = std::make_shared<Lambertian>(albedo);
                     objects.push_back(std::make_unique<Sphere>(center, 0.2, material));
                 }
-                else if (chooseMat < 0.95) { // metal
-                    const Vec3 albedo(0.5 * (1.0 + random_double()),
-                                      0.5 * (1.0 + random_double()),
-                                      0.5 * (1.0 + random_double()));
-                    auto material = std::make_shared<Metal>(albedo, 0.5 * random_double());
+                else if (chooseMat < 0.95) {  // metal
+                    const Vec3 albedo(
+                        0.5 * (1.0 + randomDouble()), 0.5 * (1.0 + randomDouble()), 0.5 * (1.0 + randomDouble()));
+                    auto material = std::make_shared<Metal>(albedo, 0.5 * randomDouble());
                     objects.push_back(std::make_unique<Sphere>(center, 0.2, material));
                 }
-                else { // glass
+                else {  // glass
                     objects.push_back(std::make_unique<Sphere>(center, 0.2, glass));
                 }
             }

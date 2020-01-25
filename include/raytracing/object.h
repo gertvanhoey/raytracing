@@ -1,21 +1,24 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
-#include "raytracing_export.h"
-#include "ray.h"
-#include "aabb.h"
 #include <optional>
+
+#include "aabb.h"
+#include "ray.h"
+#include "raytracing_export.h"
 
 class Material;
 
-struct RAYTRACING_EXPORT HitRecord {
+struct RAYTRACING_EXPORT HitRecord
+{
     double t {0.0};
     Vec3 p {0.0, 0.0, 0.0};
     Vec3 normal {1.0, 0.0, 0.0};
     Material* material {nullptr};
 };
 
-class RAYTRACING_EXPORT Object {
+class RAYTRACING_EXPORT Object
+{
 public:
     Object() = default;
     virtual ~Object() = default;
@@ -28,4 +31,4 @@ public:
     virtual std::optional<AxisAlignedBoundingBox> boundingBox() const = 0;
 };
 
-#endif // OBJECT_H
+#endif  // OBJECT_H

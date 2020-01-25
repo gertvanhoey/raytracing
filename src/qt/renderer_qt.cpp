@@ -1,7 +1,9 @@
 #include "renderer_qt.h"
-#include "world.h"
+
 #include <QThread>
 #include <fstream>
+
+#include "world.h"
 
 RayTracer::RayTracer(QObject* parent) :
     QObject(parent),
@@ -64,10 +66,7 @@ void RayTracer::start()
     thread->start();
 }
 
-void RayTracer::stop()
-{
-
-}
+void RayTracer::stop() {}
 
 void RayTracer::onImageAvailable(QImage image, int numRaysPerPixel)
 {
@@ -83,9 +82,13 @@ void RayTracer::createCamera()
     const Vec3 lookAt(0.0, 0.0, 0.0);
     const double distanceToFocus = (lookFrom - lookAt).length();
     const double aperture = 0.0;
-    m_camera = std::make_unique<Camera>(lookFrom, lookAt, Vec3(0.0, 1.0, 0.0), 30.0,
+    m_camera = std::make_unique<Camera>(lookFrom,
+                                        lookAt,
+                                        Vec3(0.0, 1.0, 0.0),
+                                        30.0,
                                         double(m_size.width()) / double(m_size.height()),
-                                        aperture, distanceToFocus);
+                                        aperture,
+                                        distanceToFocus);
 }
 
 RayTracerWorker::RayTracerWorker(Object* world, Camera* camera, QSize size, int maxNumRaysPerPixel) :
@@ -116,7 +119,7 @@ void RayTracerWorker::process()
                     imageData[4 * w * row + 4 * col + 2] = r;
                 }
             }
-            QImage image(const_cast<const uchar *>(imageData.data()), int(w), int(h), QImage::Format_RGB32);
+            QImage image(const_cast<const uchar*>(imageData.data()), int(w), int(h), QImage::Format_RGB32);
             image.bits();
             m_numRaysPerPixel++;
             Q_EMIT imageAvailable(image, m_numRaysPerPixel);
@@ -125,7 +128,7 @@ void RayTracerWorker::process()
     Q_EMIT finished();
 }
 
-void RayTracerWorker::save_to_ppm(const std::string &filename, const Array2D<Vec3> &pixels, int width, int height)
+void RayTracerWorker::save_to_ppm(const std::string& filename, const Array2D<Vec3>& pixels, int width, int height)
 {
     std::ofstream output;
     output.open(filename);
@@ -141,4 +144,3 @@ void RayTracerWorker::save_to_ppm(const std::string &filename, const Array2D<Vec
     }
     output.close();
 }
-

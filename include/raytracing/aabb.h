@@ -19,9 +19,10 @@ public:
 
     static AxisAlignedBoundingBox surroundingBox(const AxisAlignedBoundingBox& box1,
                                                  const AxisAlignedBoundingBox& box2);
+
 private:
     Vec3 m_min {0.0, 0.0, 0.0};
     Vec3 m_max {0.0, 0.0, 0.0};
 };
 
-#endif // AABB_H
+#endif  // AABB_H

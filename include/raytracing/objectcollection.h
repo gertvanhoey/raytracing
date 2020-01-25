@@ -1,12 +1,13 @@
 #ifndef OBJECT_COLLECTION_H
 #define OBJECT_COLLECTION_H
 
-#include "raytracing_export.h"
-#include "object.h"
-#include "aabb.h"
-#include <vector>
 #include <memory>
 #include <optional>
+#include <vector>
+
+#include "aabb.h"
+#include "object.h"
+#include "raytracing_export.h"
 
 class RAYTRACING_EXPORT ObjectCollection : public Object
 {
@@ -28,4 +29,4 @@ private:
     Impl* m_pimpl;
 };
 
-#endif // OBJECT_COLLECTION_H
+#endif  // OBJECT_COLLECTION_H

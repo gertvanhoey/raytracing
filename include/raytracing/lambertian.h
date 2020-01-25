@@ -1,8 +1,8 @@
 #ifndef LAMBERTIAN_H
 #define LAMBERTIAN_H
 
-#include "raytracing_export.h"
 #include "material.h"
+#include "raytracing_export.h"
 
 class RAYTRACING_EXPORT Lambertian : public Material
 {
@@ -15,4 +15,4 @@ private:
     Vec3 m_albedo;
 };
 
-#endif // LAMBERTIAN_H
+#endif  // LAMBERTIAN_H

@@ -1,8 +1,8 @@
 #ifndef METAL_H
 #define METAL_H
 
-#include "raytracing_export.h"
 #include "material.h"
+#include "raytracing_export.h"
 
 class RAYTRACING_EXPORT Metal : public Material
 {
@@ -16,4 +16,4 @@ private:
     double m_fuzziness;
 };
 
-#endif // METAL_H
+#endif  // METAL_H

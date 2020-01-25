@@ -1,22 +1,20 @@
 #include "bvhnode.h"
-#include "random.h"
-#include "aabb.h"
+
 #include <algorithm>
 #include <iostream>
 
-class BoundingVolumeHierarchyNode::Impl
-{
+#include "aabb.h"
+#include "random.h"
+
+class BoundingVolumeHierarchyNode::Impl {
 public:
-    std::unique_ptr<Object> m_leftNode { nullptr };
-    std::unique_ptr<Object> m_rightNode { nullptr };
-    std::unique_ptr<Object> m_object { nullptr };
+    std::unique_ptr<Object> m_leftNode {nullptr};
+    std::unique_ptr<Object> m_rightNode {nullptr};
+    std::unique_ptr<Object> m_object {nullptr};
     AxisAlignedBoundingBox m_box {};
 };
 
-BoundingVolumeHierarchyNode::BoundingVolumeHierarchyNode() :
-    m_pimpl(new Impl)
-{
-}
+BoundingVolumeHierarchyNode::BoundingVolumeHierarchyNode() : m_pimpl(new Impl) {}
 
 BoundingVolumeHierarchyNode::BoundingVolumeHierarchyNode(std::vector<std::unique_ptr<Object>>& objects) :
     m_pimpl(new Impl)
@@ -29,7 +27,7 @@ BoundingVolumeHierarchyNode::~BoundingVolumeHierarchyNode()
     delete m_pimpl;
 }
 
-std::optional<HitRecord> BoundingVolumeHierarchyNode::hit(const Ray &r, double t_min, double t_max) const
+std::optional<HitRecord> BoundingVolumeHierarchyNode::hit(const Ray& r, double t_min, double t_max) const
 {
     std::optional<HitRecord> result = std::nullopt;
 
@@ -66,16 +64,16 @@ std::optional<AxisAlignedBoundingBox> BoundingVolumeHierarchyNode::boundingBox()
 }
 
 BoundingVolumeHierarchyNode::BoundingVolumeHierarchyNode(std::vector<std::unique_ptr<Object>>& objects,
-                                                         size_t from, size_t to) :
+                                                         size_t from,
+                                                         size_t to) :
     m_pimpl(new Impl)
 {
     initialize(objects, from, to);
 }
 
-void BoundingVolumeHierarchyNode::initialize(std::vector<std::unique_ptr<Object>>& objects,
-                                             size_t from, size_t to)
+void BoundingVolumeHierarchyNode::initialize(std::vector<std::unique_ptr<Object>>& objects, size_t from, size_t to)
 {
-    int axis = int(3.0 * random_double());
+    int axis = int(3.0 * randomDouble());
 
     auto fromIterator = objects.begin() + static_cast<long>(from);
     auto toIterator = objects.begin() + static_cast<long>(to);

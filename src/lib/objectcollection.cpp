@@ -6,9 +6,7 @@ public:
     std::vector<std::unique_ptr<Object>> m_objects;
 };
 
-ObjectCollection::ObjectCollection() : m_pimpl(new Impl)
-{
-}
+ObjectCollection::ObjectCollection() : m_pimpl(new Impl) {}
 
 ObjectCollection::~ObjectCollection()
 {
@@ -23,11 +21,11 @@ void ObjectCollection::add(std::unique_ptr<Object> object)
 std::optional<HitRecord> ObjectCollection::hit(const Ray& r, double t_min, double t_max) const
 {
     std::optional<HitRecord> result;
-    double closest_so_far = t_max;
+    double closestSoFar = t_max;
     for (const auto& object : m_pimpl->m_objects) {
-        auto record = object->hit(r, t_min, closest_so_far);
+        auto record = object->hit(r, t_min, closestSoFar);
         if (record) {
-            closest_so_far = record->t;
+            closestSoFar = record->t;
             result = record;
         }
     }

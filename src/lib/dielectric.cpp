@@ -1,12 +1,11 @@
 #include "dielectric.h"
-#include "random.h"
-#include <cmath>
-#include <cassert>
 
-Dielectric::Dielectric(double refractiveIndex) :
-    m_refractiveIndex(refractiveIndex)
-{
-}
+#include <cassert>
+#include <cmath>
+
+#include "random.h"
+
+Dielectric::Dielectric(double refractiveIndex) : m_refractiveIndex(refractiveIndex) {}
 
 std::optional<Ray> Dielectric::scatter(const Ray& ray, const HitRecord& record) const
 {
@@ -20,14 +19,12 @@ std::optional<Ray> Dielectric::scatter(const Ray& ray, const HitRecord& record) 
     if (dot(ray.direction(), record.normal) > 0.0) {
         outwardNormal = -record.normal;
         ni_over_nt = m_refractiveIndex;
-        cosine = m_refractiveIndex * dot(ray.direction(), record.normal)
-                / ray.direction().length();
+        cosine = m_refractiveIndex * dot(ray.direction(), record.normal) / ray.direction().length();
     }
     else {
         outwardNormal = record.normal;
         ni_over_nt = 1.0 / m_refractiveIndex;
-        cosine = -dot(ray.direction(), record.normal)
-                / ray.direction().length();
+        cosine = -dot(ray.direction(), record.normal) / ray.direction().length();
     }
 
     auto refracted = Material::refract(ray.direction(), outwardNormal, ni_over_nt);
@@ -39,12 +36,12 @@ std::optional<Ray> Dielectric::scatter(const Ray& ray, const HitRecord& record) 
     }
 
     Ray scattered;
-    if (random_double() < reflectionProbability) {
-        scattered = Ray(record.p, reflected, ray.color); // no attenuation
+    if (randomDouble() < reflectionProbability) {
+        scattered = Ray(record.p, reflected, ray.color);  // no attenuation
     }
     else {
         assert(refracted);
-        scattered = Ray(record.p, *refracted, ray.color); // no attenuation
+        scattered = Ray(record.p, *refracted, ray.color);  // no attenuation
     }
     return scattered;
 }

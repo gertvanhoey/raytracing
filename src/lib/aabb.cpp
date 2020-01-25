@@ -1,12 +1,10 @@
 #include "aabb.h"
-#include "ray.h"
+
 #include <algorithm>
 
-AxisAlignedBoundingBox::AxisAlignedBoundingBox(const Vec3 &min, const Vec3 &max) :
-    m_min(min),
-    m_max(max)
-{
-}
+#include "ray.h"
+
+AxisAlignedBoundingBox::AxisAlignedBoundingBox(const Vec3& min, const Vec3& max) : m_min(min), m_max(max) {}
 
 Vec3 AxisAlignedBoundingBox::min() const
 {

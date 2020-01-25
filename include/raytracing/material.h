@@ -1,9 +1,10 @@
 #ifndef MATERIAL_H
 #define MATERIAL_H
 
-#include "raytracing_export.h"
-#include "object.h"
 #include <optional>
+
+#include "object.h"
+#include "raytracing_export.h"
 
 class RAYTRACING_EXPORT Material
 {
@@ -21,4 +22,4 @@ public:
     static std::optional<Vec3> refract(const Vec3& v, const Vec3& n, double ni_over_nt);
 };
 
-#endif // MATERIAL_H
+#endif  // MATERIAL_H

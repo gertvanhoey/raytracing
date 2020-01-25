@@ -12,16 +12,11 @@ public:
 };
 
 Sphere::Impl::Impl(Vec3 center, double r, std::shared_ptr<Material> material) :
-    m_center(center),
-    m_radius(r),
-    m_material(std::move(material))
+    m_center(center), m_radius(r), m_material(std::move(material))
 {
 }
 
-Sphere::Sphere() :
-    m_pimpl(new Impl)
-{
-}
+Sphere::Sphere() : m_pimpl(new Impl) {}
 
 Sphere::Sphere(Vec3 center, double r, std::shared_ptr<Material> material) :
     m_pimpl(new Impl(center, r, std::move(material)))
@@ -32,7 +27,6 @@ Sphere::~Sphere()
 {
     delete m_pimpl;
 }
-
 
 std::optional<HitRecord> Sphere::hit(const Ray& r, double t_min, double t_max) const
 {
@@ -48,7 +42,7 @@ std::optional<HitRecord> Sphere::hit(const Ray& r, double t_min, double t_max) c
         if (t_min < temp && temp < t_max) {
             HitRecord record;
             record.t = temp;
-            record.p = r.point_at_parameter(record.t);
+            record.p = r.pointAtParameter(record.t);
             record.normal = (record.p - center) / radius;
             record.material = m_pimpl->m_material.get();
             return record;
@@ -57,7 +51,7 @@ std::optional<HitRecord> Sphere::hit(const Ray& r, double t_min, double t_max) c
         if (t_min < temp && temp < t_max) {
             HitRecord record;
             record.t = temp;
-            record.p = r.point_at_parameter(record.t);
+            record.p = r.pointAtParameter(record.t);
             record.normal = (record.p - center) / radius;
             record.material = m_pimpl->m_material.get();
             return record;

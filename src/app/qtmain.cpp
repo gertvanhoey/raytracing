@@ -1,8 +1,8 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
-#include "renderer_qt.h"
 #include "imageitem.h"
+#include "renderer_qt.h"
 
 int main(int argc, char* argv[])
 {

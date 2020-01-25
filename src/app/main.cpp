@@ -1,19 +1,21 @@
 #define _USE_MATH_DEFINES
-#include <cmath>
 #include <cfloat>
-#include <vector>
-#include <string>
-#include <limits>
-#include <iostream>
+#include <cmath>
 #include <fstream>
-#include "objectcollection.h"
+#include <iostream>
+#include <limits>
+#include <string>
+#include <vector>
+
+#include "array2d.h"
 #include "camera.h"
 #include "material.h"
+#include "objectcollection.h"
 #include "renderer.h"
-#include "array2d.h"
 #include "world.h"
 
-void save_to_ppm(const std::string& filename, const Array2D<Vec3>& pixels, int width, int height) {
+void save_to_ppm(const std::string& filename, const Array2D<Vec3>& pixels, int width, int height)
+{
     std::ofstream output;
     output.open(filename);
     output << "P3\n" << width << " " << height << "\n255\n";
@@ -29,7 +31,8 @@ void save_to_ppm(const std::string& filename, const Array2D<Vec3>& pixels, int w
     output.close();
 }
 
-int main() {
+int main()
+{
     const size_t width = 640;
     const size_t height = 480;
     const int numRaysPerPixel = 50;
@@ -40,7 +43,8 @@ int main() {
     const Vec3 lookAt(0.0, 0.0, 0.0);
     const double distanceToFocus = (lookFrom - lookAt).length();
     const double aperture = 0.05;
-    Camera camera(lookFrom, lookAt, Vec3(0.0, 1.0, 0.0), 30.0, double(width) / double(height), aperture, distanceToFocus);
+    Camera camera(
+        lookFrom, lookAt, Vec3(0.0, 1.0, 0.0), 30.0, double(width) / double(height), aperture, distanceToFocus);
 
     auto pixelsParallel = Renderer::renderParallel(*world, camera, width, height, numRaysPerPixel, 8);
     save_to_ppm("image_parallel.ppm", pixelsParallel, width, height);

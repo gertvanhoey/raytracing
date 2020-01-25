@@ -1,10 +1,11 @@
 #ifndef WORLD_H
 #define WORLD_H
 
-#include "raytracing_export.h"
-#include "object.h"
 #include <memory>
 #include <vector>
+
+#include "object.h"
+#include "raytracing_export.h"
 
 class RAYTRACING_EXPORT World
 {
@@ -18,4 +19,4 @@ private:
     static std::vector<std::unique_ptr<Object>> randomSceneVector();
 };
 
-#endif // WORLD_H
+#endif  // WORLD_H
